@@ -16,7 +16,7 @@ public class Warehouse {
     /**
      * Main Method
      * 
-     * @param args list of command line arguements
+     * @param args list of command line arguments
      */
     public static void main(String[] args) {
     	//TODO
