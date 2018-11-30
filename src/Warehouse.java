@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -47,12 +48,18 @@ public class Warehouse {
 
         //Do what?
 
+        ArrayList<Package> packages = DatabaseManager.loadPackages(PACKAGE_FILE);
+        ArrayList<Vehicle> vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
+        double profit = DatabaseManager.loadProfit(PROFIT_FILE);
+        boolean primeDay = DatabaseManager.loadPrimeDay(PRIME_DAY_FILE);
+        int packagesShipped = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
+
 
         //2) Show menu and handle user inputs
 
         boolean repeatMenu;
         while (repeatMenu) {
-            if () { //check if it's not prime day
+            if (!primeDay) { //check if it's not prime day
                 System.out.println(menuInactive);
             } else {
                 System.out.println(menuActive);
@@ -92,6 +99,8 @@ public class Warehouse {
                                         "====================", buyerName, address, city,
                                 state, zipCode, weight, price, productName);
                         //Need to add package somewhere?
+                        ShippingAddress completeAddress =
+                        packages.add(packageID, productName, weight, price, ShippingAddress())
                     } else if (input == 2) {
                         boolean vehicleRepeat;
                         while (vehicleRepeat) {
