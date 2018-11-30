@@ -89,7 +89,7 @@ public class Warehouse {
                         String state = s.nextLine();
                         System.out.println("Enter ZIP Code:");
                         int zipCode = s.nextInt();
-                        String totalInfo = String.format("====================\n" +
+                        String totalInfo = String.format("====================\n" + //SHOULD BE USING A METHOD INSTEAD
                                         "TO: %s\n" +
                                         "%s\n" +
                                         "%s, %s, %d\n" +
@@ -99,8 +99,8 @@ public class Warehouse {
                                         "====================", buyerName, address, city,
                                 state, zipCode, weight, price, productName);
                         //Need to add package somewhere?
-                        ShippingAddress completeAddress =
-                        packages.add(packageID, productName, weight, price, ShippingAddress())
+                        ShippingAddress completeAddress = new ShippingAddress(buyerName, address, city, state, zipCode);
+                        packages.add(new Package(packageID, productName, weight, price, completeAddress));
                     } else if (input == 2) {
                         boolean vehicleRepeat;
                         while (vehicleRepeat) {

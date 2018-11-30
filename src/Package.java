@@ -14,6 +14,14 @@ public class Package {
     //============================================================================
     //TODO
 
+    public Package() {
+        this.id = "";
+        this.product = "";
+        this.weight = 0;
+        this.price = 0;
+        this.destination = new ShippingAddress();
+    }
+
     //============================================================================
     /**
      * Constructor
@@ -132,7 +140,15 @@ public class Package {
      * @return The package's shipping label.
      */
     public String shippingLabel() {
-        return shippingLabel();
+        String totalInfo = String.format("====================\n" + //SHOULD BE USING A METHOD INSTEAD
+                        "TO: %s\n" +
+                        "%s\n" +
+                        "%s, %s, %d\n" +
+                        "Weight: %.2f\n" +
+                        "Price: $%.2f\n" +
+                        "Product: %s\n" +
+                        "====================", buyerName, address, city,
+                state, zipCode, weight, price, productName);
     }
 
 }
