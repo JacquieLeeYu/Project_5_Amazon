@@ -20,11 +20,11 @@ public class Warehouse {
      * @param args list of command line arguments
      */
     public static void main(String[] args) {
-    	//TODO
+        //TODO
 
         Scanner s = new Scanner(System.in);
 
-        String menu = "==========Options==========\n" +
+        String menuInactive = "==========Options==========\n" +
                 "1) Add Package\n" +
                 "2) Add Vehicle\n" +
                 "3) Activate Prime Day\n" +
@@ -33,62 +33,97 @@ public class Warehouse {
                 "6) Exit\n" +
                 "===========================";
 
+        String menuActive = "==========Options==========\n" +
+                "1) Add Package\n" +
+                "2) Add Vehicle\n" +
+                "3) Deactivate Prime Day\n" +
+                "4) Send Vehicle\n" +
+                "5) Print Statistics\n" +
+                "6) Exit\n" +
+                "===========================";
+
 
         //1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
 
+        //Do what?
 
 
         //2) Show menu and handle user inputs
 
-        System.out.println(menu);
-        try {
-            int input = s.nextInt();
-
-            if (input < 1 || input > 6) {
-                System.out.println("Error: Option not available.");
+        boolean repeatMenu;
+        while (repeatMenu) {
+            if () { //check if it's not prime day
+                System.out.println(menuInactive);
             } else {
-                if (input == 1) {
-                    System.out.println("Enter Package ID:");
-                    String packageID = s.nextLine();
-                    System.out.println("Enter Product Name:");
-                    String productName = s.nextLine();
-                    System.out.println("Enter Weight:");
-                    double weight = s.nextDouble();
-                    System.out.println("Enter Price:");
-                    double price = s.nextDouble();
-                    System.out.println("Enter Buyer Name:");
-                    String buyerName = s.nextLine();
-                    System.out.println("Enter Address:");
-                    String address = s.nextLine();
-                    System.out.println("Enter City:");
-                    String city = s.nextLine();
-                    System.out.println("Enter State:");
-                    String state = s.nextLine();
-                    System.out.println("Enter ZIP Code:");
-                    int zipCode = s.nextInt();
-                    String totalInfo = String.format("====================\n" +
-                            "TO: %s\n" +
-                            "%s\n" +
-                            "%s, %s, %d\n" +
-                            "Weight: %.2f\n" +
-                            "Price: $%.2f\n" +
-                            "Product: %s\n" +
-                            "====================", buyerName, address, city,
-                            state, zipCode, weight, price, productName);
-                } else if (input == 2) {
-
-                } else if (input == 3) {
-
-                } else if (input == 4) {
-
-                } else if (input == 5) {
-
-                } else {
-
-                }
+                System.out.println(menuActive);
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Option not available.");
+            try {
+                int input = s.nextInt();
+
+                if (input < 1 || input > 6) {
+                    System.out.println("Error: Option not available.");
+                } else {
+                    if (input == 1) {
+                        System.out.println("Enter Package ID:");
+                        String packageID = s.nextLine();
+                        System.out.println("Enter Product Name:");
+                        String productName = s.nextLine();
+                        System.out.println("Enter Weight:");
+                        double weight = s.nextDouble();
+                        System.out.println("Enter Price:");
+                        double price = s.nextDouble();
+                        System.out.println("Enter Buyer Name:");
+                        String buyerName = s.nextLine();
+                        System.out.println("Enter Address:");
+                        String address = s.nextLine();
+                        System.out.println("Enter City:");
+                        String city = s.nextLine();
+                        System.out.println("Enter State:");
+                        String state = s.nextLine();
+                        System.out.println("Enter ZIP Code:");
+                        int zipCode = s.nextInt();
+                        String totalInfo = String.format("====================\n" +
+                                        "TO: %s\n" +
+                                        "%s\n" +
+                                        "%s, %s, %d\n" +
+                                        "Weight: %.2f\n" +
+                                        "Price: $%.2f\n" +
+                                        "Product: %s\n" +
+                                        "====================", buyerName, address, city,
+                                state, zipCode, weight, price, productName);
+                        //Need to add package somewhere?
+                    } else if (input == 2) {
+                        boolean vehicleRepeat;
+                        while (vehicleRepeat) {
+                            System.out.println("Vehicle Options:\n" +
+                                    "1) Truck\n" +
+                                    "2) Drone\n" +
+                                    "3) Cargo Plane");
+                            try {
+                                int vehicleInput = s.nextInt();
+                                System.out.println("Enter License Plate No.:");
+                                String licensePlate = s.nextLine();
+                                System.out.println("Enter Maximum Carry Weight:");
+                                double maxCarryWeight = s.nextDouble();
+                            } catch (NumberFormatException e) {
+                                System.out.println("Error: Option Not Available.");
+                                vehicleRepeat = true;
+                            }
+                        }
+                    } else if (input == 3) {
+
+                    } else if (input == 4) {
+
+                    } else if (input == 5) {
+
+                    } else {
+
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Option not available.");
+                repeatMenu = true;
+            }
         }
 
 
