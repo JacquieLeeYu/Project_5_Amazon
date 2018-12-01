@@ -140,7 +140,7 @@ public class Package {
      * @return The package's shipping label.
      */
     public String shippingLabel() {
-        String totalInfo = String.format("====================\n" + //SHOULD BE USING A METHOD INSTEAD
+        String totalInfo = String.format("====================\n" +
                         "TO: %s\n" +
                         "%s\n" +
                         "%s, %s, %d\n" +

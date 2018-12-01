@@ -57,7 +57,7 @@ public class Warehouse {
 
         //2) Show menu and handle user inputs
 
-        boolean repeatMenu;
+        boolean repeatMenu = true;
         while (repeatMenu) {
             if (!primeDay) { //check if it's not prime day
                 System.out.println(menuInactive);
@@ -70,39 +70,42 @@ public class Warehouse {
                 if (input < 1 || input > 6) {
                     System.out.println("Error: Option not available.");
                 } else {
-                    if (input == 1) {
-                        System.out.println("Enter Package ID:");
-                        String packageID = s.nextLine();
-                        System.out.println("Enter Product Name:");
-                        String productName = s.nextLine();
-                        System.out.println("Enter Weight:");
-                        double weight = s.nextDouble();
-                        System.out.println("Enter Price:");
-                        double price = s.nextDouble();
-                        System.out.println("Enter Buyer Name:");
-                        String buyerName = s.nextLine();
-                        System.out.println("Enter Address:");
-                        String address = s.nextLine();
-                        System.out.println("Enter City:");
-                        String city = s.nextLine();
-                        System.out.println("Enter State:");
-                        String state = s.nextLine();
-                        System.out.println("Enter ZIP Code:");
-                        int zipCode = s.nextInt();
-                        String totalInfo = String.format("====================\n" + //SHOULD BE USING A METHOD INSTEAD
-                                        "TO: %s\n" +
-                                        "%s\n" +
-                                        "%s, %s, %d\n" +
-                                        "Weight: %.2f\n" +
-                                        "Price: $%.2f\n" +
-                                        "Product: %s\n" +
-                                        "====================", buyerName, address, city,
-                                state, zipCode, weight, price, productName);
-                        //Need to add package somewhere?
-                        ShippingAddress completeAddress = new ShippingAddress(buyerName, address, city, state, zipCode);
-                        packages.add(new Package(packageID, productName, weight, price, completeAddress));
-                    } else if (input == 2) {
-                        boolean vehicleRepeat;
+                    if (input == 1) { //Add package
+                        boolean packageRepeat = true;
+                        while (packageRepeat) {
+                            System.out.println("Enter Package ID:");
+                            String packageID = s.nextLine();
+                            System.out.println("Enter Product Name:");
+                            String productName = s.nextLine();
+                            System.out.println("Enter Weight:");
+                            try {
+                                double weight = s.nextDouble();
+                                System.out.println("Enter Price:");
+                                double price = s.nextDouble();
+                                System.out.println("Enter Buyer Name:");
+                                String buyerName = s.nextLine();
+                                System.out.println("Enter Address:");
+                                String address = s.nextLine();
+                                System.out.println("Enter City:");
+                                String city = s.nextLine();
+                                System.out.println("Enter State:");
+                                String state = s.nextLine();
+                                System.out.println("Enter ZIP Code:");
+                                int zipCode = s.nextInt();
+                                ShippingAddress completeAddress = new
+                                        ShippingAddress(buyerName, address, city, state, zipCode);
+                                Package pack = new Package(packageID, productName, weight, price, completeAddress);
+                                packages.add(pack);
+                                pack.shippingLabel();
+
+                                packageRepeat = false;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Error: Option not available.");
+                                packageRepeat = false;
+                            }
+                        }
+                    } else if (input == 2) { //Add vehicle
+                        boolean vehicleRepeat = true;
                         while (vehicleRepeat) {
                             System.out.println("Vehicle Options:\n" +
                                     "1) Truck\n" +
@@ -114,29 +117,112 @@ public class Warehouse {
                                 String licensePlate = s.nextLine();
                                 System.out.println("Enter Maximum Carry Weight:");
                                 double maxCarryWeight = s.nextDouble();
+                                vehicles.add(new Vehicle(licensePlate, maxCarryWeight));
+                                vehicleRepeat = false;
                             } catch (NumberFormatException e) {
                                 System.out.println("Error: Option Not Available.");
                                 vehicleRepeat = true;
                             }
                         }
-                    } else if (input == 3) {
+                    } else if (input == 3) { //Activate/Deactivate Prime Day
+                        if (primeDay) {
 
-                    } else if (input == 4) {
+                        }
 
-                    } else if (input == 5) {
+                    } else if (input == 4) { //Send Vehicle
+                        if (vehicles.size() == 0) {
+                            System.out.println("Error: No vehicles available.");
+                            continue;
+                        }
+                        if (packages.size() == 0) {
+                            System.out.println("Error: No packages available.");
+                            continue;
+                        }
+
+                        String sendMenu = "Options:\n" +
+                                "1) Send Truck\n" +
+                                "2) Send Drone\n" +
+                                "3) Send Cargo Plane\n" +
+                                "4) Send First Available";
+
+                        System.out.println(sendMenu);
+
+                        try {
+                            int sendInput = s.nextInt();
+                            if (sendInput < 1 || sendInput > 4) {
+                                System.out.println("Error: Option Not Available.");
+                            } else {
+                                if (sendInput == 1) {
+                                    boolean found = false;
+                                    for (Vehicle v : vehicles) {
+                                        if (v instanceof Truck) {
+                                            found = true;
+                                            System.out.println("ZIP Code Options:\n" +
+                                                    "1) Send to first ZIP Code\n" +
+                                                    "2) Send to mode of ZIP Codes");
+
+                                            int zipDest = s.nextInt();
+                                            if (zipDest == 1) { //First zipcode
+                                                int zip = packages.get(0).getDestination().getZipCode();
+                                                v.setZipDest(zip);
+                                                v.fill(packages);
+                                                v.report();
+                                            } else if (zipDest == 2) { //Mode zipcode
+                                                int[] modes = new int[packages.size()];
+                                                for (int i = 0 ; i < packages.size() ; i++) {
+                                                    for (int j = 0 ; j < packages.size() ; j++) {
+                                                        if (packages.get(i).equals(packages.get(j))) {
+                                                            modes[i] += 1;
+                                                        }
+                                                    }
+                                                }
+                                                int max = modes[0];
+                                                int maxIndex = 0;
+                                                for (int e : modes) {
+                                                    if (max < modes[e]) {
+                                                        max = modes[e];
+                                                        maxIndex = e;
+                                                    }
+                                                }
+                                                v.setZipDest(maxIndex);
+                                                v.fill(packages);
+                                                v.report();
+                                            }
+                                        }
+                                    }
+                                    if (!found) {
+                                        System.out.println("Error: No vehicles of selected type are available.");
+                                        continue;
+                                    }
+
+
+                                } else if (sendInput == 2) {
+
+                                } else if (sendInput == 3) {
+
+                                } else {
+
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Error: Option not available.");
+                        }
+                    } else if (input == 5) { //Print Stats
 
                     } else {
-
+                        repeatMenu = false;
                     }
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Option not available.");
-                repeatMenu = true;
+            } catch(NumberFormatException e){
+                    System.out.println("Error: Option not available.");
+                    repeatMenu = true;
             }
         }
+    }
 
 
-    	//3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
+    	//3) save data (vehicle, packages, profits, packages shipped and primeday)
+    // to files (overwriting them) using DatabaseManager
     	
     
     }
