@@ -147,8 +147,10 @@ public class Package {
                         "Weight: %.2f\n" +
                         "Price: $%.2f\n" +
                         "Product: %s\n" +
-                        "====================", buyerName, address, city,
-                state, zipCode, weight, price, productName);
+                        "====================", this.getDestination().getName(), this.getDestination().getAddress(),
+                this.getDestination().getCity(), this.getDestination().getState(), this.getDestination().getZipCode(),
+                weight, price, product);
+        return totalInfo;
     }
 
 }
