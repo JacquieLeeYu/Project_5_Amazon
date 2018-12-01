@@ -53,8 +53,24 @@ public class CargoPlane extends Vehicle {
 
     @Override
     public double getProfit() {
-    	//TODO
-        
+        double revenue = 0;
+        int maxRange = 0;
+        double cost = 0;
+        for (int i = 0; i < getPackages().size(); i++) {
+            revenue += getPackages().get(i).getPrice();
+        }
+        for (int i = 0; i < getPackages().size(); i++) {
+            int zip = getPackages().get(i).getDestination().getZipCode();
+            int distance = Math.abs(zip - getZipDest());
+            if (distance >= maxRange) {
+                maxRange = distance;
+            }
+        }
+        if(maxRange%10 != 0) {
+            maxRange = maxRange - (maxRange%10) + 10;
+        }
+        cost = maxRange * GAS_RATE;
+        return (revenue - cost);
     }
 
     /**
@@ -71,7 +87,17 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public String report() {
-    	//TODO
+        String license = "License Plate No.: " + getLicensePlate();
+        String destination = "Destination: " + getZipDest();
+        String weight = "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight();
+        String profit = String.format("Net Profit: %.2f", getProfit());
+        String labels = "";
+        for (int i = 0; i < getPackages().size() ; i++) {
+            labels += getPackages().get(i).shippingLabel();
+        }
+        String report ="======== Cargo Plane Report =======\n"
+                + license + "\n" + destination + "\n" + weight + "\n" + profit +"\n" + labels;
+        return report;
        
     }
 

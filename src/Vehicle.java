@@ -16,7 +16,9 @@ public class Vehicle implements Profitable {
      * Default Constructor
      */
     //============================================================================
-    //TODO
+    Vehicle() {
+        this("",0);
+    }
     
     //============================================================================
 
@@ -28,7 +30,13 @@ public class Vehicle implements Profitable {
      * @param maxWeight    maximum weight of vehicle
      */
     //============================================================================
-    //TODO
+    public Vehicle(String licensePlate, double maxWeight) {
+        this.licensePlate = licensePlate;
+        this.maxWeight = maxWeight;
+        this.currentWeight = 0;
+        this.zipDest = 0;
+        this.packages = new ArrayList<>();
+    }
     
     //============================================================================
 
@@ -39,7 +47,7 @@ public class Vehicle implements Profitable {
      * @return license plate of this vehicle
      */
     public String getLicensePlate() {
-        //TODO
+        return licensePlate;
     }
 
     
@@ -52,7 +60,7 @@ public class Vehicle implements Profitable {
      * @param licensePlate license plate to be updated to
      */
     public void setLicensePlate(String licensePlate) {
-        //TODO
+        this.licensePlate = licensePlate;
     }
     
     
@@ -67,7 +75,7 @@ public class Vehicle implements Profitable {
      * @return the maximum weight that this vehicle can carry
      */
     public double getMaxWeight() {
-        //TODO  
+        return maxWeight;
     }
 
     
@@ -80,7 +88,7 @@ public class Vehicle implements Profitable {
      * @param maxWeight max weight to be updated to
      */
     public void setMaxWeight(double maxWeight) {
-        //TODO
+        this.maxWeight = maxWeight;
     }
 
     
@@ -94,7 +102,7 @@ public class Vehicle implements Profitable {
      * @return current weight of all packages inside vehicle
      */
     public double getCurrentWeight() {
-        //TODO
+        return currentWeight;
     }
     
     
@@ -108,7 +116,7 @@ public class Vehicle implements Profitable {
      * @return current ZIP code destination of vehicle
      */
     public int getZipDest() {
-        //TODO 
+        return zipDest;
     }
     
     
@@ -122,7 +130,7 @@ public class Vehicle implements Profitable {
      * @param zipDest ZIP code destination to be updated to
      */
     public void setZipDest(int zipDest) {
-        //TODO
+        this.zipDest = zipDest;
     }
 
     
@@ -136,7 +144,7 @@ public class Vehicle implements Profitable {
      * @return ArrayList of packages in vehicle
      */
     public ArrayList<Package> getPackages() {
-        //TODO
+        return packages;
     }
 
     
@@ -152,7 +160,10 @@ public class Vehicle implements Profitable {
      * @return whether or not it was successful in adding the package
      */
     public boolean addPackage(Package pkg) {
-        //TODO
+        if((currentWeight + pkg.getWeight()) < maxWeight) {
+            packages.add(pkg);
+            return true;
+        } else return false;
     }
 
     
@@ -164,7 +175,8 @@ public class Vehicle implements Profitable {
      * Clears vehicle of packages and resets its weight to zero
      */
     public void empty() {
-        //TODO
+        this.packages = new ArrayList<>();
+        this.currentWeight = 0;
     }
     
     
@@ -179,14 +191,19 @@ public class Vehicle implements Profitable {
      * @return whether or not Vehicle is full
      */
     public boolean isFull() {
-        //TODO
+        return (currentWeight >= maxWeight);
     }
 
-    
-    
-    
-    
-    
+    @Override
+    public double getProfit() {
+        return 0;
+    }
+
+    @Override
+    public String report() {
+        return null;
+    }
+
     /**
      * Fills vehicle with packages with preference of date added and range of its
      * destination zip code. It will iterate over the packages intially at a range
@@ -199,6 +216,19 @@ public class Vehicle implements Profitable {
      */
     public void fill(ArrayList<Package> warehousePackages) {
         //TODO
+        int diffCounter = 0;
+        int maxRange = 0;
+        while (!isFull()) {
+        for (int i = 0; i < warehousePackages.size() ; i++) {
+            int destination = warehousePackages.get(i).getDestination().getZipCode();
+            int difference = Math.abs(destination - this.zipDest);
+            if(difference == diffCounter) {
+                addPackage(warehousePackages.get(i));
+            }
+            }
+            diffCounter++;
+        }
+        maxRange = diffCounter;
     }
 
     

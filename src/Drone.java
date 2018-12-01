@@ -11,7 +11,9 @@ public class Drone extends Vehicle {
      * Default Contructor 
      */
     //============================================================================
-    //TODO
+    public Drone(){
+        super();
+    }
     
     //============================================================================
 
@@ -22,7 +24,9 @@ public class Drone extends Vehicle {
      * @param maxWeight    maximum weight that the vehicle can hold
      */
     //============================================================================
-    //TODO
+    public Drone(String licensePlate, double maxWeight) {
+        super(licensePlate,maxWeight);
+    }
     
     //============================================================================
 
@@ -39,8 +43,21 @@ public class Drone extends Vehicle {
      */
     @Override
     public double getProfit() {
-    	//TODO
-    	
+        double revenue = 0;
+        int maxRange = 0;
+        double cost = 0;
+        for (int i = 0; i < getPackages().size(); i++) {
+            revenue += getPackages().get(i).getPrice();
+        }
+        for (int i = 0; i < getPackages().size(); i++) {
+            int zip = getPackages().get(i).getDestination().getZipCode();
+            int distance = Math.abs(zip - getZipDest());
+            if (distance >= maxRange) {
+                maxRange = distance;
+            }
+        }
+        cost = maxRange * GAS_RATE;
+        return (revenue - cost);
     }
 
     /**
@@ -57,7 +74,17 @@ public class Drone extends Vehicle {
      */
     @Override
     public String report() {
-    	//TODO
+    	String license = "License Plate No.: " + getLicensePlate();
+    	String destination = "Destination: " + getZipDest();
+    	String weight = "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight();
+    	String profit = String.format("Net Profit: %.2f", getProfit());
+        String labels = "";
+    	for (int i = 0; i < getPackages().size() ; i++) {
+            labels += getPackages().get(i).shippingLabel();
+        }
+        String report ="======== Drone Report =======\n"
+                + license + "\n" + destination + "\n" + weight + "\n" + profit +"\n" + labels;
+    	return report;
     }
     
    
