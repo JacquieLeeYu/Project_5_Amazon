@@ -11,7 +11,9 @@ public class CargoPlane extends Vehicle {
      * Default Constructor
      */
     //============================================================================
-    //TODO
+    CargoPlane(){
+        super();
+    }
     
     //============================================================================
 
@@ -22,7 +24,9 @@ public class CargoPlane extends Vehicle {
      * @param maxWeight    maximum weight that the vehicle can hold
      */
     //============================================================================
-    //TODO
+    public CargoPlane(String licensePlate, double maxWeight) {
+        super(licensePlate, maxWeight);
+    }
     
     //============================================================================
 
@@ -34,8 +38,18 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-    	//TODO
-        
+        int diffCounter = 0;
+        int maxRange = 0;
+        while (!isFull()) {
+            for (int i = 0; i < warehousePackages.size() ; i++) {
+                int destination = warehousePackages.get(i).getDestination().getZipCode();
+                int difference = Math.abs(destination - this.getZipDest());
+                if(difference < diffCounter + 10 && difference > diffCounter) {
+                    addPackage(warehousePackages.get(i));
+                }
+            }
+            diffCounter += 10;
+        }
     }
 
     /*

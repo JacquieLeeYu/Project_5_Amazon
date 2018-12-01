@@ -215,7 +215,6 @@ public class Vehicle implements Profitable {
      * @param warehousePackages List of packages to add from
      */
     public void fill(ArrayList<Package> warehousePackages) {
-        //TODO
         int diffCounter = 0;
         int maxRange = 0;
         while (!isFull()) {
@@ -228,7 +227,7 @@ public class Vehicle implements Profitable {
             }
             diffCounter++;
         }
-        maxRange = diffCounter;
+
     }
 
     
