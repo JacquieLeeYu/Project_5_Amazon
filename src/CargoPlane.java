@@ -50,6 +50,7 @@ public class CargoPlane extends Vehicle {
      * &sum;p<sub>price</sub> - (range<sub>max</sub> &times; 2.33)
      * </p>
      */
+
     @Override
     public double getProfit() {
     	//TODO
