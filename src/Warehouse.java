@@ -1,4 +1,8 @@
+import javax.xml.crypto.Data;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -240,11 +244,21 @@ public class Warehouse {
                     repeatMenu = true;
             }
         }
+        //3) save data (vehicle, packages, profits, packages shipped and primeday)
+        // to files (overwriting them) using DatabaseManager
+        DatabaseManager.saveVehicles(VEHICLE_FILE,vehicles);
+        DatabaseManager.savePackages(PACKAGE_FILE, packages);
+        DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
+        DatabaseManager.saveProfit(PROFIT_FILE,profit);
+        DatabaseManager.savePrimeDay(PRIME_DAY_FILE,primeDay);
+
+
+
+
     }
 
 
-    	//3) save data (vehicle, packages, profits, packages shipped and primeday)
-    // to files (overwriting them) using DatabaseManager
+
 
 
     	

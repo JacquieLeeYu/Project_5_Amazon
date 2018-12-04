@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -117,7 +119,30 @@ public class DatabaseManager {
      * @param vehicles ArrayList of vehicles to save to file
      */
     public static void saveVehicles(File file, ArrayList<Vehicle> vehicles) {
-    	//TODO
+    	try {
+            FileWriter vehicleFile = new FileWriter(file);
+            String vehicleType = "";
+            String vehicleFormat = "";
+
+            for (int i = 0; i < vehicles.size() ; i++) {
+                if (vehicles.get(i) instanceof Drone) {
+                    vehicleType = "Drone";
+                } else
+                if (vehicles.get(i) instanceof Truck) {
+                    vehicleType = "Truck";
+                } else
+                if (vehicles.get(i) instanceof CargoPlane) {
+                    vehicleType = "Cargo Plane";
+                }
+                vehicleFormat = "Vehicle Type (Truck/Done/Cargo Plane) " + vehicleType
+                        + ", Vehicle License Plate " + vehicles.get(i).getLicensePlate()
+                        + ", Maximum Carry Weight " + vehicles.get(i).getMaxWeight();
+
+                vehicleFile.write(vehicleFormat);
+            }
+        } catch (IOException e) {
+            System.out.println("File could not be saved");
+        }
     }
 
     
@@ -142,7 +167,26 @@ public class DatabaseManager {
      * @param packages ArrayList of packages to save to file
      */
     public static void savePackages(File file, ArrayList<Package> packages) {
-    	//TODO
+        try {
+            FileWriter packageFile = new FileWriter(file);
+            String packageFormat = "";
+            for (int i = 0; i < packages.size() ; i++) {
+            packageFormat = "ID " + packages.get(i).getID()
+                    + ", Product Name " + packages.get(i).getProduct()
+                    + ", Weight " + packages.get(i).getWeight()
+                    + ", Price " + packages.get(i).getPrice()
+                    + ", Address Name " + packages.get(i).getDestination().getName()
+                    + ", Address " + packages.get(i).getDestination().getAddress()
+                    + ", City " + packages.get(i).getDestination().getCity()
+                    + ", State " + packages.get(i).getDestination().getState()
+                    + ", ZIP Code " + packages.get(i).getDestination().getZipCode() + "\n";
+            packageFile.write(packageFormat);
+
+            }
+        } catch (IOException e) {
+            System.out.println("File could not be saved");
+        }
+
     }
 
     
@@ -156,7 +200,13 @@ public class DatabaseManager {
      */
 
     public static void saveProfit(File file, double profit) {
-    	//TODO
+    	try {
+            FileWriter profitFile = new FileWriter(file);
+            //save profit
+            profitFile.write(Double.toString(profit));
+        } catch (IOException e) {
+    	    System.out.println("File could not be saved");
+        }
     }
 
     
@@ -171,13 +221,14 @@ public class DatabaseManager {
      */
 
     public static void savePackagesShipped(File file, int nPackages) {
-    	//TODO
+    	try {
+            FileWriter shippedFile = new FileWriter(file);
+            //save shipped packages
+            shippedFile.write(nPackages);
+        } catch (IOException e) {
+    	    System.out.println("File could not be saved.");
+        }
     }
-
-    
-    
-    
-    
     
     /**
      * Saves status of prime day to text file. If it is primeDay "1" will be
@@ -188,6 +239,18 @@ public class DatabaseManager {
      */
 
     public static void savePrimeDay(File file, boolean primeDay) {
-    	//TODO
+        try {
+        FileWriter primeFile = new FileWriter(file);
+
+        //save primeday
+            if(primeDay) {
+                primeFile.write(1);
+            } else {
+                primeFile.write(0);
+            }
+
+        } catch (IOException e) {
+            System.out.println("File could not be saved.");
+        }
     }
 }
