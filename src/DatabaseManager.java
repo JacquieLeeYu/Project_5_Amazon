@@ -1,7 +1,9 @@
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * <h1>Database Manager</h1>
@@ -25,6 +27,38 @@ public class DatabaseManager {
      */
     public static ArrayList<Vehicle> loadVehicles(File file) {
        //TODO
+        try {
+            FileReader fr = new FileReader(file);
+            Scanner scan = new Scanner(fr);
+            String details = scan.nextLine();
+            String vehicleType = "";
+            String vehiclePlate = "";
+            Double weight = 0.0;
+            ArrayList<Vehicle >vehicles = new ArrayList<>(0);
+            while(details != null) {
+                String info[] = details.split(",");
+                vehicleType = info[0];
+                vehiclePlate = info[1];
+                weight = (Double.parseDouble(info[2]);
+
+                if(vehicleType.equalsIgnoreCase("Drone")) {
+                    vehicles.add(new Drone(vehiclePlate,weight));
+                }
+                if(vehicleType.equalsIgnoreCase("Truck")) {
+                    vehicles.add(new Truck(vehiclePlate,weight));
+                }
+                if(vehicleType.equalsIgnoreCase("Cargo Plane")) {
+                    vehicles.add(new CargoPlane(vehiclePlate,weight));
+                }
+
+
+            }
+        } catch (IOException e) {
+            return  new ArrayList<Vehicle>(0);
+        }
+
+
+
 
 
     }
@@ -134,9 +168,10 @@ public class DatabaseManager {
                 if (vehicles.get(i) instanceof CargoPlane) {
                     vehicleType = "Cargo Plane";
                 }
-                vehicleFormat = "Vehicle Type (Truck/Done/Cargo Plane) " + vehicleType
-                        + ", Vehicle License Plate " + vehicles.get(i).getLicensePlate()
-                        + ", Maximum Carry Weight " + vehicles.get(i).getMaxWeight();
+                vehicleFormat = vehicleType
+                        + "," + vehicles.get(i).getLicensePlate()
+                        + "," + vehicles.get(i).getMaxWeight()
+                        + "\n";
 
                 vehicleFile.write(vehicleFormat);
             }
@@ -171,15 +206,16 @@ public class DatabaseManager {
             FileWriter packageFile = new FileWriter(file);
             String packageFormat = "";
             for (int i = 0; i < packages.size() ; i++) {
-            packageFormat = "ID " + packages.get(i).getID()
-                    + ", Product Name " + packages.get(i).getProduct()
-                    + ", Weight " + packages.get(i).getWeight()
-                    + ", Price " + packages.get(i).getPrice()
-                    + ", Address Name " + packages.get(i).getDestination().getName()
-                    + ", Address " + packages.get(i).getDestination().getAddress()
-                    + ", City " + packages.get(i).getDestination().getCity()
-                    + ", State " + packages.get(i).getDestination().getState()
-                    + ", ZIP Code " + packages.get(i).getDestination().getZipCode() + "\n";
+            packageFormat = packages.get(i).getID()
+                    + "," + packages.get(i).getProduct()
+                    + "," + packages.get(i).getWeight()
+                    + "," + packages.get(i).getPrice()
+                    + "," + packages.get(i).getDestination().getName()
+                    + "," + packages.get(i).getDestination().getAddress()
+                    + "," + packages.get(i).getDestination().getCity()
+                    + "," + packages.get(i).getDestination().getState()
+                    + "," + packages.get(i).getDestination().getZipCode()
+                    + "\n";
             packageFile.write(packageFormat);
 
             }
@@ -209,9 +245,7 @@ public class DatabaseManager {
         }
     }
 
-    
-    
-    
+
     
     /**
      * Saves number of packages shipped to text file.
