@@ -94,6 +94,9 @@ public class Warehouse {
                                 double weight = s.nextDouble();
                                 System.out.println("Enter Price:");
                                 double price = s.nextDouble();
+                                if (primeDay) {
+                                    price *= 1 - PRIME_DAY_DISCOUNT;
+                                }
                                 System.out.println("Enter Buyer Name:");
                                 String buyerName = s.nextLine();
                                 System.out.println("Enter Address:");
@@ -138,7 +141,15 @@ public class Warehouse {
                         }
                     } else if (input == 3) { //Activate/Deactivate Prime Day
                         if (primeDay) {
-
+                            for (Package p : packages) {
+                                p.setPrice(p.getPrice() / (1 - PRIME_DAY_DISCOUNT));
+                            }
+                            primeDay = false;
+                        } else {
+                            for (Package p : packages) {
+                                p.setPrice(p.getPrice() * (1 - PRIME_DAY_DISCOUNT));
+                            }
+                            primeDay = true;
                         }
 
                     } else if (input == 4) { //Send Vehicle
@@ -164,60 +175,80 @@ public class Warehouse {
                             if (sendInput < 1 || sendInput > 4) {
                                 System.out.println("Error: Option Not Available.");
                             } else {
+                                boolean found = false;
+                                Vehicle ve = null;
                                 if (sendInput == 1) {
-                                    boolean found = false;
                                     for (Vehicle v : vehicles) {
                                         if (v instanceof Truck) {
                                             found = true;
-                                            System.out.println("ZIP Code Options:\n" +
-                                                    "1) Send to first ZIP Code\n" +
-                                                    "2) Send to mode of ZIP Codes");
-
-                                            int zipDest = s.nextInt();
-                                            if (zipDest == 1) { //First zipcode
-                                                int zip = packages.get(0).getDestination().getZipCode();
-                                                v.setZipDest(zip);
-                                                v.fill(packages);
-                                                v.report();
-                                                //NEeds to gEtpRofIt
-                                                profit += v.getProfit();
-                                                packagesShipped += packages.size();
-                                            } else if (zipDest == 2) { //Mode zipcode
-                                                int[] modes = new int[packages.size()];
-                                                for (int i = 0 ; i < packages.size() ; i++) {
-                                                    for (int j = 0 ; j < packages.size() ; j++) {
-                                                        if (packages.get(i).equals(packages.get(j))) {
-                                                            modes[i] += 1;
-                                                        }
-                                                    }
-                                                }
-                                                int max = modes[0];
-                                                int maxIndex = 0;
-                                                for (int e : modes) {
-                                                    if (max < modes[e]) {
-                                                        max = modes[e];
-                                                        maxIndex = e;
-                                                    }
-                                                }
-                                                v.setZipDest(maxIndex);
-                                                v.fill(packages);
-                                                v.report();
-                                                //GEt ProFiT
-                                            }
+                                            ve = v;
+                                            break;
                                         }
                                     }
-                                    if (!found) {
-                                        System.out.println("Error: No vehicles of selected type are available.");
-                                        continue;
+                                } else if (sendInput == 2) {
+                                    for (Vehicle v : vehicles) {
+                                        if (v instanceof Drone) {
+                                            found = true;
+                                            ve = v;
+                                            break;
+                                        }
+                                    }
+                                } else if (sendInput == 3) {
+                                    for (Vehicle v : vehicles) {
+                                        if (v instanceof CargoPlane) {
+                                            found = true;
+                                            ve = v;
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    for (Vehicle v : vehicles) {
+                                        if (!v.isFull()) {
+                                            found = true;
+                                            ve = v;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (found) {
+                                    System.out.println("ZIP Code Options:\n" +
+                                            "1) Send to first ZIP Code\n" +
+                                            "2) Send to mode of ZIP Codes");
+
+                                    int zipDest = s.nextInt();
+                                    if (zipDest == 1) { //First zipcode
+                                        int zip = packages.get(0).getDestination().getZipCode();
+                                        ve.setZipDest(zip);
+                                        ve.fill(packages);
+                                        ve.report();
+                                        profit += ve.getProfit();
+                                        packagesShipped += packages.size();
+                                    } else if (zipDest == 2) { //Mode zipcode
+                                        int[] modes = new int[packages.size()];
+                                        for (int i = 0 ; i < packages.size() ; i++) {
+                                            for (int j = 0 ; j < packages.size() ; j++) {
+                                                if (packages.get(i).equals(packages.get(j))) {
+                                                    modes[i] += 1;
+                                                }
+                                            }
+                                        }
+                                        int max = modes[0];
+                                        int maxIndex = 0;
+                                        for (int e : modes) {
+                                            if (max < modes[e]) {
+                                                max = modes[e];
+                                                maxIndex = e;
+                                            }
+                                        }
+                                        ve.setZipDest(maxIndex);
+                                        ve.fill(packages);
+                                        ve.report();
+                                        profit += ve.getProfit();
+                                        packagesShipped += packages.size();
                                     }
 
-
-                                } else if (sendInput == 2) {
-
-                                } else if (sendInput == 3) {
-
                                 } else {
-
+                                    System.out.println("Error: No vehicles of selected type are available.");
                                 }
                             }
                         } catch (NumberFormatException e) {
@@ -264,3 +295,4 @@ public class Warehouse {
     	
     
 }
+
