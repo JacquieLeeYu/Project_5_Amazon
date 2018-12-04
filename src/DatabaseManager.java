@@ -23,6 +23,8 @@ public class DatabaseManager {
      */
     public static ArrayList<Vehicle> loadVehicles(File file) {
        //TODO
+
+
     }
 
     

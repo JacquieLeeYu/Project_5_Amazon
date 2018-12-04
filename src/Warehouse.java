@@ -1,4 +1,6 @@
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,12 +17,18 @@ public class Warehouse {
     final static File PRIME_DAY_FILE = new File(folderPath + "PrimeDay.txt");
     final static double PRIME_DAY_DISCOUNT = .15;
 
+
+
     /**
      * Main Method
      * 
      * @param args list of command line arguments
      */
     public static void main(String[] args) {
+
+
+
+        DecimalFormat df = new DecimalFormat();
         //TODO
 
         Scanner s = new Scanner(System.in);
@@ -167,6 +175,9 @@ public class Warehouse {
                                                 v.setZipDest(zip);
                                                 v.fill(packages);
                                                 v.report();
+                                                //NEeds to gEtpRofIt
+                                                profit += v.getProfit();
+                                                packagesShipped += packages.size();
                                             } else if (zipDest == 2) { //Mode zipcode
                                                 int[] modes = new int[packages.size()];
                                                 for (int i = 0 ; i < packages.size() ; i++) {
@@ -187,6 +198,7 @@ public class Warehouse {
                                                 v.setZipDest(maxIndex);
                                                 v.fill(packages);
                                                 v.report();
+                                                //GEt ProFiT
                                             }
                                         }
                                     }
@@ -209,6 +221,16 @@ public class Warehouse {
                         }
                     } else if (input == 5) { //Print Stats
 
+                        df.setDecimalSeparatorAlwaysShown(true);
+
+                        String stats = String.format("==========Statistics==========\n" +
+                                "Profits: $%.2f\n" +
+                                "Packages Shipped: %d\n" +
+                                "Packages in Warehouse: %d\n" +
+                                "==============================", profit, packagesShipped, packages.size());
+
+                        System.out.println(stats);
+
                     } else {
                         repeatMenu = false;
                     }
@@ -223,9 +245,8 @@ public class Warehouse {
 
     	//3) save data (vehicle, packages, profits, packages shipped and primeday)
     // to files (overwriting them) using DatabaseManager
+
+
     	
     
-    }
-
-
 }
