@@ -78,6 +78,7 @@ public class Warehouse {
             }
             try {
                 int input = s.nextInt();
+                s.nextLine();
 
                 if (input < 1 || input > 6) {
                     System.out.println("Error: Option not available.");
@@ -97,6 +98,7 @@ public class Warehouse {
                                 if (primeDay) {
                                     price *= 1 - PRIME_DAY_DISCOUNT;
                                 }
+                                s.nextLine();
                                 System.out.println("Enter Buyer Name:");
                                 String buyerName = s.nextLine();
                                 System.out.println("Enter Address:");
@@ -128,12 +130,32 @@ public class Warehouse {
                                     "3) Cargo Plane");
                             try {
                                 int vehicleInput = s.nextInt();
+                                s.nextLine();
+                                if (vehicleInput < 1 || vehicleInput > 3) {
+                                    System.out.println("Error: Option Not Available.");
+                                    continue;
+                                }
                                 System.out.println("Enter License Plate No.:");
                                 String licensePlate = s.nextLine();
                                 System.out.println("Enter Maximum Carry Weight:");
-                                double maxCarryWeight = s.nextDouble();
-                                vehicles.add(new Vehicle(licensePlate, maxCarryWeight));
-                                vehicleRepeat = false;
+                                double maxCarryWeight;
+                                try {
+                                    maxCarryWeight = s.nextDouble();
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Error: Input Not A Number.");
+                                    continue;
+                                }
+                                s.nextLine();
+                                if (vehicleInput == 1) {
+                                    vehicles.add(new Truck(licensePlate, maxCarryWeight));
+                                    vehicleRepeat = false;
+                                } else if (vehicleInput == 2) {
+                                    vehicles.add(new Drone(licensePlate, maxCarryWeight));
+                                    vehicleRepeat = false;
+                                } else {
+                                    vehicles.add(new CargoPlane(licensePlate, maxCarryWeight));
+                                    vehicleRepeat = false;
+                                }
                             } catch (NumberFormatException e) {
                                 System.out.println("Error: Option Not Available.");
                                 vehicleRepeat = true;
@@ -168,92 +190,104 @@ public class Warehouse {
                                 "3) Send Cargo Plane\n" +
                                 "4) Send First Available";
 
-                        System.out.println(sendMenu);
 
-                        try {
-                            int sendInput = s.nextInt();
-                            if (sendInput < 1 || sendInput > 4) {
-                                System.out.println("Error: Option Not Available.");
-                            } else {
-                                boolean found = false;
-                                Vehicle ve = null;
-                                if (sendInput == 1) {
-                                    for (Vehicle v : vehicles) {
-                                        if (v instanceof Truck) {
-                                            found = true;
-                                            ve = v;
-                                            break;
-                                        }
-                                    }
-                                } else if (sendInput == 2) {
-                                    for (Vehicle v : vehicles) {
-                                        if (v instanceof Drone) {
-                                            found = true;
-                                            ve = v;
-                                            break;
-                                        }
-                                    }
-                                } else if (sendInput == 3) {
-                                    for (Vehicle v : vehicles) {
-                                        if (v instanceof CargoPlane) {
-                                            found = true;
-                                            ve = v;
-                                            break;
-                                        }
-                                    }
+                        boolean sendRepeat = true;
+                        while (sendRepeat) {
+                            System.out.println(sendMenu);
+                            try {
+                                int sendInput = s.nextInt();
+                                s.nextLine();
+                                if (sendInput < 1 || sendInput > 4) {
+                                    System.out.println("Error: Option Not Available.");
                                 } else {
-                                    for (Vehicle v : vehicles) {
-                                        if (!v.isFull()) {
-                                            found = true;
-                                            ve = v;
-                                            break;
+                                    boolean found = false;
+                                    Vehicle ve = null;
+                                    if (sendInput == 1) {
+                                        for (Vehicle v : vehicles) {
+                                            if (v instanceof Truck) {
+                                                found = true;
+                                                ve = v;
+                                                break;
+                                            }
+                                        }
+                                    } else if (sendInput == 2) {
+                                        for (Vehicle v : vehicles) {
+                                            if (v instanceof Drone) {
+                                                found = true;
+                                                ve = v;
+                                                break;
+                                            }
+                                        }
+                                    } else if (sendInput == 3) {
+                                        for (Vehicle v : vehicles) {
+                                            if (v instanceof CargoPlane) {
+                                                found = true;
+                                                ve = v;
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        for (Vehicle v : vehicles) {
+                                            if (!v.isFull()) {
+                                                found = true;
+                                                ve = v;
+                                                break;
+                                            }
                                         }
                                     }
-                                }
-                                if (found) {
-                                    System.out.println("ZIP Code Options:\n" +
-                                            "1) Send to first ZIP Code\n" +
-                                            "2) Send to mode of ZIP Codes");
+                                    if (found) {
+                                        System.out.println("ZIP Code Options:\n" +
+                                                "1) Send to first ZIP Code\n" +
+                                                "2) Send to mode of ZIP Codes");
 
-                                    int zipDest = s.nextInt();
-                                    if (zipDest == 1) { //First zipcode
-                                        int zip = packages.get(0).getDestination().getZipCode();
-                                        ve.setZipDest(zip);
-                                        ve.fill(packages);
-                                        ve.report();
-                                        profit += ve.getProfit();
-                                        packagesShipped += packages.size();
-                                    } else if (zipDest == 2) { //Mode zipcode
-                                        int[] modes = new int[packages.size()];
-                                        for (int i = 0 ; i < packages.size() ; i++) {
-                                            for (int j = 0 ; j < packages.size() ; j++) {
-                                                if (packages.get(i).equals(packages.get(j))) {
-                                                    modes[i] += 1;
+                                        int zipDest = s.nextInt();
+                                        s.nextLine();
+                                        if (zipDest == 1) { //First zipcode
+                                            int zip = packages.get(0).getDestination().getZipCode();
+                                            ve.setZipDest(zip);
+                                            ve.fill(packages);
+                                            ve.report();
+                                            profit += ve.getProfit();
+                                            packagesShipped += packages.size();
+                                            sendRepeat = false;
+                                        } else if (zipDest == 2) { //Mode zipcode
+                                            int[] modes = new int[packages.size()];
+                                            for (int i = 0; i < packages.size(); i++) {
+                                                for (int j = 0; j < packages.size(); j++) {
+                                                    if (packages.get(i).equals(packages.get(j))) {
+                                                        modes[i] += 1;
+                                                    }
                                                 }
                                             }
-                                        }
-                                        int max = modes[0];
-                                        int maxIndex = 0;
-                                        for (int e : modes) {
-                                            if (max < modes[e]) {
-                                                max = modes[e];
-                                                maxIndex = e;
+                                            int max = modes[0];
+                                            int maxIndex = 0;
+                                            for (int i = 0 ; i < modes.length ; i++) {
+                                                if (max < modes[i]) {
+                                                    max = modes[i];
+                                                    maxIndex = i;
+                                                }
                                             }
+                                            ve.setZipDest(maxIndex);
+                                            System.out.println("1");
+                                            ve.fill(packages);
+                                            System.out.println("2");
+                                            ve.report();
+                                            System.out.println("3");
+                                            profit += ve.getProfit();
+                                            System.out.println("4");
+                                            packagesShipped += packages.size();
+                                            System.out.println("all");
+                                            sendRepeat = false;
                                         }
-                                        ve.setZipDest(maxIndex);
-                                        ve.fill(packages);
-                                        ve.report();
-                                        profit += ve.getProfit();
-                                        packagesShipped += packages.size();
-                                    }
 
-                                } else {
-                                    System.out.println("Error: No vehicles of selected type are available.");
-                                }
+                                    } else {
+                                        System.out.println("Error: No vehicles of selected type are available.");
+                                    }
                             }
                         } catch (NumberFormatException e) {
                             System.out.println("Error: Option not available.");
                         }
+                    }
                     } else if (input == 5) { //Print Stats
 
                         df.setDecimalSeparatorAlwaysShown(true);
@@ -267,21 +301,21 @@ public class Warehouse {
                         System.out.println(stats);
 
                     } else {
+                        DatabaseManager.saveVehicles(VEHICLE_FILE,vehicles);
+                        DatabaseManager.savePackages(PACKAGE_FILE, packages);
+                        DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
+                        DatabaseManager.saveProfit(PROFIT_FILE,profit);
+                        DatabaseManager.savePrimeDay(PRIME_DAY_FILE,primeDay);
                         repeatMenu = false;
                     }
                 }
             } catch(NumberFormatException e){
-                    System.out.println("Error: Option not available.");
-                    repeatMenu = true;
+                System.out.println("Error: Option not available.");
+                repeatMenu = true;
             }
         }
         //3) save data (vehicle, packages, profits, packages shipped and primeday)
         // to files (overwriting them) using DatabaseManager
-        DatabaseManager.saveVehicles(VEHICLE_FILE,vehicles);
-        DatabaseManager.savePackages(PACKAGE_FILE, packages);
-        DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
-        DatabaseManager.saveProfit(PROFIT_FILE,profit);
-        DatabaseManager.savePrimeDay(PRIME_DAY_FILE,primeDay);
 
 
 

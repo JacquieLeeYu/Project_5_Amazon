@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -30,11 +31,16 @@ public class DatabaseManager {
         try {
             FileReader fr = new FileReader(file);
             Scanner scan = new Scanner(fr);
-            String details = scan.nextLine();
             String vehicleType = "";
             String vehiclePlate = "";
             double weight = 0.0;
             ArrayList<Vehicle> vehicles = new ArrayList<>(0);
+            String details;
+            try {
+                details = scan.nextLine();
+            } catch (NoSuchElementException e) {
+                details = null;
+            }
             while(details != null) {
                 String info[] = details.split(",");
                 vehicleType = info[0];
@@ -50,7 +56,11 @@ public class DatabaseManager {
                 if(vehicleType.equalsIgnoreCase("Cargo Plane")) {
                     vehicles.add(new CargoPlane(vehiclePlate,weight));
                 }
-                details = scan.nextLine();
+                try {
+                    details = scan.nextLine();
+                } catch (NoSuchElementException e) {
+                    details = null;
+                }
             }
             return vehicles;
         } catch (IOException e) {
@@ -88,7 +98,6 @@ public class DatabaseManager {
         try {
             FileReader fr = new FileReader(file);
             Scanner scan = new Scanner(fr);
-            String details = scan.nextLine();
             String ID = "";
             String productName = "";
             double weight = 0.0;
@@ -100,6 +109,12 @@ public class DatabaseManager {
             int zip = 0;
             ShippingAddress ship = new ShippingAddress();
             ArrayList<Package> packages = new ArrayList<>(0);
+            String details;
+            try {
+                details = scan.nextLine();
+            } catch (NoSuchElementException e) {
+                details = null;
+            }
             while(details != null) {
                 String info[] = details.split(",");
                 ID = info[0];
@@ -114,7 +129,11 @@ public class DatabaseManager {
                 ship = new ShippingAddress(addressName,address,city,state,zip);
                 packages.add(new Package(ID,productName,weight,price,ship));
 
-                details = scan.nextLine();
+                try {
+                    details = scan.nextLine();
+                } catch (NoSuchElementException e) {
+                    details = null;
+                }
 
             }
             return packages;
@@ -141,7 +160,7 @@ public class DatabaseManager {
             Scanner scan = new Scanner(fr);
             double profit = scan.nextDouble();
             return profit;
-        } catch (IOException e ) {
+        } catch (IOException | NoSuchElementException e ) {
     	    return 0;
         }
     }
@@ -163,7 +182,7 @@ public class DatabaseManager {
             Scanner scan = new Scanner(fr);
             int shipped = scan.nextInt();
             return shipped;
-        } catch (IOException e) {
+        } catch (IOException | NoSuchElementException e) {
     	    return 0;
         }
     }
@@ -188,7 +207,7 @@ public class DatabaseManager {
            } else {
                return false;
            }
-       } catch (IOException e) {
+       } catch (IOException | NoSuchElementException e) {
            return false;
        }
 

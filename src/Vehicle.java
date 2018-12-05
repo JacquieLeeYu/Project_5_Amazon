@@ -214,7 +214,7 @@ public class Vehicle implements Profitable {
      * 
      * @param warehousePackages List of packages to add from
      */
-    public void fill(ArrayList<Package> warehousePackages) {
+    public void fill(ArrayList<Package> warehousePackages) { //It stops here for some reason
         int diffCounter = 0;
         int maxRange = 0;
         while (!isFull()) {
