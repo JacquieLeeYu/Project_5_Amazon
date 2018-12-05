@@ -33,13 +33,13 @@ public class DatabaseManager {
             String details = scan.nextLine();
             String vehicleType = "";
             String vehiclePlate = "";
-            Double weight = 0.0;
-            ArrayList<Vehicle >vehicles = new ArrayList<>(0);
+            double weight = 0.0;
+            ArrayList<Vehicle> vehicles = new ArrayList<>(0);
             while(details != null) {
                 String info[] = details.split(",");
                 vehicleType = info[0];
                 vehiclePlate = info[1];
-                weight = (Double.parseDouble(info[2]);
+                weight = (Double.parseDouble(info[2]));
 
                 if(vehicleType.equalsIgnoreCase("Drone")) {
                     vehicles.add(new Drone(vehiclePlate,weight));
@@ -50,15 +50,12 @@ public class DatabaseManager {
                 if(vehicleType.equalsIgnoreCase("Cargo Plane")) {
                     vehicles.add(new CargoPlane(vehiclePlate,weight));
                 }
-
-
+                details = scan.nextLine();
             }
+            return vehicles;
         } catch (IOException e) {
-            return  new ArrayList<Vehicle>(0);
+            return  new ArrayList<>(0);
         }
-
-
-
 
 
     }
@@ -88,7 +85,42 @@ public class DatabaseManager {
      * @return ArrayList of packages
      */
     public static ArrayList<Package> loadPackages(File file) {
-    	//TODO
+        try {
+            FileReader fr = new FileReader(file);
+            Scanner scan = new Scanner(fr);
+            String details = scan.nextLine();
+            String ID = "";
+            String productName = "";
+            double weight = 0.0;
+            double price = 0.0;
+            String addressName = "";
+            String address = "";
+            String city = "";
+            String state = "";
+            int zip = 0;
+            ShippingAddress ship = new ShippingAddress();
+            ArrayList<Package> packages = new ArrayList<>(0);
+            while(details != null) {
+                String info[] = details.split(",");
+                ID = info[0];
+                productName = info[1];
+                weight = Double.parseDouble(info[2]);
+                price = Double.parseDouble(info[3]);
+                addressName = info[4];
+                address = info[5];
+                city = info[6];
+                state = info[7];
+                zip = Integer.parseInt(info[8]);
+                ship = new ShippingAddress(addressName,address,city,state,zip);
+                packages.add(new Package(ID,productName,weight,price,ship));
+
+                details = scan.nextLine();
+
+            }
+            return packages;
+        } catch (IOException e) {
+            return  new ArrayList<>(0);
+        }
     }
     
     
@@ -104,7 +136,14 @@ public class DatabaseManager {
      * @return profits from file
      */
     public static double loadProfit(File file) {
-    	//TODO
+    	try {
+            FileReader fr = new FileReader(file);
+            Scanner scan = new Scanner(fr);
+            double profit = scan.nextDouble();
+            return profit;
+        } catch (IOException e ) {
+    	    return 0;
+        }
     }
 
     
@@ -119,7 +158,14 @@ public class DatabaseManager {
      * @return number of packages shipped from file
      */
     public static int loadPackagesShipped(File file) {
-    	//TODO
+    	try {
+            FileReader fr = new FileReader(file);
+            Scanner scan = new Scanner(fr);
+            int shipped = scan.nextInt();
+            return shipped;
+        } catch (IOException e) {
+    	    return 0;
+        }
     }
 
     
@@ -133,7 +179,19 @@ public class DatabaseManager {
      * @return whether or not it is prime day
      */
     public static boolean loadPrimeDay(File file) {
-    	//TODO
+       try{
+           FileReader fr = new FileReader(file);
+           Scanner scan = new Scanner(fr);
+           int prime = scan.nextInt();
+           if (prime == 1) {
+               return true;
+           } else {
+               return false;
+           }
+       } catch (IOException e) {
+           return false;
+       }
+
     }
 
     
