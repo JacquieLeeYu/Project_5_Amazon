@@ -214,18 +214,25 @@ public class Vehicle implements Profitable {
      * 
      * @param warehousePackages List of packages to add from
      */
-    public void fill(ArrayList<Package> warehousePackages) { //It stops here for some reason
+    public void fill(ArrayList<Package> warehousePackages) {
         int diffCounter = 0;
         int maxRange = 0;
-        while (!isFull()) {
+        setZipDest(warehousePackages.get(0).getDestination().getZipCode());
+        while (!isFull() && warehousePackages.size() != 0) {
+//            System.out.println("Inside While loop");
         for (int i = 0; i < warehousePackages.size() ; i++) {
             int destination = warehousePackages.get(i).getDestination().getZipCode();
             int difference = Math.abs(destination - this.zipDest);
             if(difference == diffCounter) {
                 addPackage(warehousePackages.get(i));
+                warehousePackages.remove(i);
+                break;
             }
             }
             diffCounter++;
+//            System.out.println("Got to diffCounter");
+//            System.out.println(warehousePackages.size());
+//            System.out.println(diffCounter);
         }
 
     }

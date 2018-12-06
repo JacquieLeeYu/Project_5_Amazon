@@ -242,13 +242,17 @@ public class Warehouse {
 
                                         int zipDest = s.nextInt();
                                         s.nextLine();
+                                        int sizeBefore;
+                                        int sizeAfter;
                                         if (zipDest == 1) { //First zipcode
                                             int zip = packages.get(0).getDestination().getZipCode();
                                             ve.setZipDest(zip);
+                                            sizeBefore = packages.size();
                                             ve.fill(packages);
+                                            sizeAfter = packages.size();
                                             ve.report();
                                             profit += ve.getProfit();
-                                            packagesShipped += packages.size();
+                                            packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
                                         } else if (zipDest == 2) { //Mode zipcode
                                             int[] modes = new int[packages.size()];
@@ -268,15 +272,12 @@ public class Warehouse {
                                                 }
                                             }
                                             ve.setZipDest(maxIndex);
-                                            System.out.println("1");
+                                            sizeBefore = packages.size();
                                             ve.fill(packages);
-                                            System.out.println("2");
+                                            sizeAfter = packages.size();
                                             ve.report();
-                                            System.out.println("3");
                                             profit += ve.getProfit();
-                                            System.out.println("4");
-                                            packagesShipped += packages.size();
-                                            System.out.println("all");
+                                            packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
                                         }
 
