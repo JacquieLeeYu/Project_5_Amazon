@@ -32,7 +32,6 @@ public class Warehouse {
 
 
 
-        DecimalFormat df = new DecimalFormat();
         //TODO
 
         Scanner s = new Scanner(System.in);
@@ -291,17 +290,10 @@ public class Warehouse {
                     }
                     } else if (input == 5) { //Print Stats
 
-                        df.setDecimalSeparatorAlwaysShown(true);
-
-                        String stats = String.format("==========Statistics==========\n" +
-                                "Profits: $%.2f\n" +
-                                "Packages Shipped: %d\n" +
-                                "Packages in Warehouse: %d\n" +
-                                "==============================", profit, packagesShipped, packages.size());
-
-                        System.out.println(stats);
+                        printStatisticsReport(profit, packagesShipped, packages.size());
 
                     } else {
+                        System.out.println("Exiting...");
                         DatabaseManager.saveVehicles(VEHICLE_FILE,vehicles);
                         DatabaseManager.savePackages(PACKAGE_FILE, packages);
                         DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
@@ -321,6 +313,21 @@ public class Warehouse {
 
 
 
+    }
+
+
+    public static void printStatisticsReport(double profits, int packagesShipped, int numberOfPackages) {
+
+        DecimalFormat df = new DecimalFormat();
+        df.setDecimalSeparatorAlwaysShown(true);
+
+        String stats = String.format("==========Statistics==========\n" +
+                "Profits: $%.2f\n" +
+                "Packages Shipped: %d\n" +
+                "Packages in Warehouse: %d\n" +
+                "==============================", profits, packagesShipped, numberOfPackages);
+
+        System.out.println(stats);
     }
 
 

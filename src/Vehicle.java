@@ -217,22 +217,28 @@ public class Vehicle implements Profitable {
     public void fill(ArrayList<Package> warehousePackages) {
         int diffCounter = 0;
         int maxRange = 0;
+        boolean checkOnce = false;
+        boolean checkTwice = false;
         setZipDest(warehousePackages.get(0).getDestination().getZipCode());
-        while (!isFull() && warehousePackages.size() != 0) {
-//            System.out.println("Inside While loop");
+        while (!isFull() && warehousePackages.size() != 0 && !checkTwice) {
         for (int i = 0; i < warehousePackages.size() ; i++) {
             int destination = warehousePackages.get(i).getDestination().getZipCode();
             int difference = Math.abs(destination - this.zipDest);
             if(difference == diffCounter) {
-                addPackage(warehousePackages.get(i));
-                warehousePackages.remove(i);
-                break;
+                if (!(warehousePackages.get(i).getWeight() + this.currentWeight > this.maxWeight)) {
+                    addPackage(warehousePackages.get(i));
+                    warehousePackages.remove(i);
+                    break;
+                } else {
+                    if (!checkOnce) {
+                        checkOnce = true;
+                    } else  {
+                        checkTwice = true;
+                    }
+                }
             }
             }
             diffCounter++;
-//            System.out.println("Got to diffCounter");
-//            System.out.println(warehousePackages.size());
-//            System.out.println(diffCounter);
         }
 
     }

@@ -40,14 +40,25 @@ public class CargoPlane extends Vehicle {
     public void fill(ArrayList<Package> warehousePackages) {
         int diffCounter = 0;
         int maxRange = 0;
-        while (!isFull() && warehousePackages.size() != 0) {
+        boolean checkOnce = false;
+        boolean checkTwice = false;
+        while (!isFull() && warehousePackages.size() != 0 && !checkTwice) {
             for (int i = 0; i < warehousePackages.size() ; i++) {
                 int destination = warehousePackages.get(i).getDestination().getZipCode();
                 int difference = Math.abs(destination - this.getZipDest());
                 if(difference < diffCounter + 10 && difference > diffCounter) {
-                    addPackage(warehousePackages.get(i));
-                    warehousePackages.remove(i);
-                    break;
+                    if (!(warehousePackages.get(i).getWeight() +
+                            getCurrentWeight() > getMaxWeight())){
+                        addPackage(warehousePackages.get(i));
+                        warehousePackages.remove(i);
+                        break;
+                    } else {
+                        if (!checkOnce) {
+                            checkOnce = true;
+                        } else {
+                            checkTwice = true;
+                        }
+                    }
                 }
             }
             diffCounter += 10;
