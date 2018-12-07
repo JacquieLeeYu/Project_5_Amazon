@@ -200,7 +200,7 @@ public class Warehouse {
                                         for (Vehicle v : vehicles) {
                                             if (v instanceof Truck) {
                                                 found = true;
-                                                ve = v;
+                                                ve = new Truck(v.getLicensePlate(),v.getMaxWeight());
                                                 break;
                                             }
                                         }
@@ -208,7 +208,7 @@ public class Warehouse {
                                         for (Vehicle v : vehicles) {
                                             if (v instanceof Drone) {
                                                 found = true;
-                                                ve = v;
+                                                ve = new Drone(v.getLicensePlate(), v.getMaxWeight());
                                                 break;
                                             }
                                         }
@@ -216,7 +216,7 @@ public class Warehouse {
                                         for (Vehicle v : vehicles) {
                                             if (v instanceof CargoPlane) {
                                                 found = true;
-                                                ve = v;
+                                                ve = new CargoPlane(v.getLicensePlate(), v.getMaxWeight());
                                                 break;
                                             }
                                         }
