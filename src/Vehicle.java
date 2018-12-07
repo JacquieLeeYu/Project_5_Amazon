@@ -21,7 +21,7 @@ public class Vehicle implements Profitable {
      * Default Constructor
      */
     //============================================================================
-    Vehicle() {
+    public Vehicle() {
         this("", 0);
         this.currentWeight = 0;
         this.zipDest = 0;
