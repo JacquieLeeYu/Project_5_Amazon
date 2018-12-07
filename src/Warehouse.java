@@ -199,7 +199,7 @@ public class Warehouse {
                                         for (Vehicle v : vehicles) {
                                             if (v instanceof Truck) {
                                                 found = true;
-                                                ve = new Truck(v.getLicensePlate(),v.getMaxWeight());
+                                                ve = new Truck(v.getLicensePlate(), v.getMaxWeight());
                                                 break;
                                             }
                                         }
