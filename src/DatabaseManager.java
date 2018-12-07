@@ -331,7 +331,8 @@ public class DatabaseManager {
         try {
             FileWriter shippedFile = new FileWriter(file);
             //save shipped packages
-            shippedFile.write(nPackages);
+            System.out.println(Integer.toString(nPackages));
+            shippedFile.write(Integer.toString(nPackages));
             shippedFile.close();
         } catch (IOException e) {
             System.out.println("File could not be saved.");
