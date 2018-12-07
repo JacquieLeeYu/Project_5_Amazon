@@ -99,6 +99,10 @@ public class Vehicle implements Profitable {
     }
 
 
+    public void setCurrentWeight(double currentWeight) {
+        this.currentWeight = currentWeight;
+    }
+
     /**
      * Returns the current ZIP code desitnation of the vehicle
      *
@@ -196,6 +200,7 @@ public class Vehicle implements Profitable {
                 if (difference == diffCounter) {
                     if (!((warehousePackages.get(i).getWeight() + this.currentWeight) > this.maxWeight)) {
                         addPackage(warehousePackages.get(i));
+                        currentWeight += warehousePackages.get(i).getWeight();
                         warehousePackages.remove(i);
                         break;
                     } else {

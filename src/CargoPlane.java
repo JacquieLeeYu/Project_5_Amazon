@@ -55,6 +55,7 @@ public class CargoPlane extends Vehicle {
                     if (!(warehousePackages.get(i).getWeight() +
                             getCurrentWeight() > getMaxWeight())) {
                         addPackage(warehousePackages.get(i));
+                        setCurrentWeight(getCurrentWeight() + warehousePackages.get(i).getWeight());
                         warehousePackages.remove(i);
                         break;
                     } else {
@@ -68,6 +69,8 @@ public class CargoPlane extends Vehicle {
             }
             diffCounter += 10;
         }
+
+
     }
 
     /*

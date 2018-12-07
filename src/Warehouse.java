@@ -244,6 +244,7 @@ public class Warehouse {
                                             ve.fill(packages);
                                             sizeAfter = packages.size();
                                             System.out.println(ve.report());
+                                            ve.empty();
                                             profit += ve.getProfit();
                                             packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
@@ -269,6 +270,7 @@ public class Warehouse {
                                             ve.fill(packages);
                                             sizeAfter = packages.size();
                                             System.out.println(ve.report());
+                                            ve.empty();
                                             profit += ve.getProfit();
                                             packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
