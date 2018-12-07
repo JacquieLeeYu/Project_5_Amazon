@@ -1,7 +1,13 @@
 import java.util.ArrayList;
 
 /**
+ * CS18000 Project 5 - Amazon
+ *
  * <h1>Drone</h1> Represents a Drone
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 
 public class Drone extends Vehicle {

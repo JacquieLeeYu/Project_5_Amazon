@@ -1,7 +1,13 @@
 import java.util.ArrayList;
 
 /**
+ * CS18000 Project 5 - Amazon
+ *
  * <h1>Vehicle</h1> Represents a vehicle
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 
 public class Vehicle implements Profitable {

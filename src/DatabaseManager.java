@@ -7,9 +7,15 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
+ * CS18000 Project 5 - Amazon
+ *
  * <h1>Database Manager</h1>
  * 
  * Used to locally save and retrieve data.
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 public class DatabaseManager {
 
