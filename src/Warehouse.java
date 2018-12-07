@@ -52,7 +52,6 @@ public class Warehouse {
 
         //1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
 
-        //Do what?
 
         ArrayList<Package> packages = DatabaseManager.loadPackages(PACKAGE_FILE);
         ArrayList<Vehicle> vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);

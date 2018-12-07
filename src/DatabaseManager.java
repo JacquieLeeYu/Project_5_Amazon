@@ -201,7 +201,7 @@ public class DatabaseManager {
         try {
             FileReader fr = new FileReader(file);
             Scanner scan = new Scanner(fr);
-            int prime = scan.nextInt();
+            int prime = Integer.parseInt(scan.nextLine());
             fr.close();
             scan.close();
             return (prime == 1);
@@ -352,9 +352,9 @@ public class DatabaseManager {
 
             //save primeday
             if (primeDay) {
-                primeFile.write(1);
+                primeFile.write("1");
             } else {
-                primeFile.write(0);
+                primeFile.write("0");
             }
 
             primeFile.close();
