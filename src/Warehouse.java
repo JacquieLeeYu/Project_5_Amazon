@@ -112,7 +112,7 @@ public class Warehouse {
                                         ShippingAddress(buyerName, address, city, state, zipCode);
                                 Package pack = new Package(packageID, productName, weight, price, completeAddress);
                                 packages.add(pack);
-                                pack.shippingLabel();
+                                System.out.println(pack.shippingLabel());
 
                                 packageRepeat = false;
                             } catch (NumberFormatException e) {
