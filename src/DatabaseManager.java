@@ -251,7 +251,7 @@ public class DatabaseManager {
                 vehicleInfo += vehicleFormat;
             }
 
-            vehicleFile.write(vehicleFormat);
+            vehicleFile.write(vehicleInfo);
             vehicleFile.close();
         } catch (IOException e) {
             System.out.println("File could not be saved");
@@ -295,7 +295,7 @@ public class DatabaseManager {
                         + "\n";
                 packageInfo += packageFormat;
             }
-            packageFile.write(packageFormat);
+            packageFile.write(packageInfo);
             packageFile.close();
         } catch (IOException e) {
             System.out.println("File could not be saved");
