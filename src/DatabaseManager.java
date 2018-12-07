@@ -31,6 +31,7 @@ public class DatabaseManager {
         try {
             FileReader fr = new FileReader(file);
             Scanner scan = new Scanner(fr);
+            System.out.println("Load vehicles");
             String vehicleType = "";
             String vehiclePlate = "";
             double weight = 0.0;
@@ -39,6 +40,7 @@ public class DatabaseManager {
             try {
                 details = scan.nextLine();
             } catch (NoSuchElementException e) {
+                System.out.println("noSuchElement found");
                 details = null;
             }
             while(details != null) {
@@ -49,6 +51,7 @@ public class DatabaseManager {
 
                 if(vehicleType.equalsIgnoreCase("Drone")) {
                     vehicles.add(new Drone(vehiclePlate,weight));
+                    System.out.println("drone found");
                 }
                 if(vehicleType.equalsIgnoreCase("Truck")) {
                     vehicles.add(new Truck(vehiclePlate,weight));
@@ -62,6 +65,8 @@ public class DatabaseManager {
                     details = null;
                 }
             }
+            fr.close();
+            scan.close();
             return vehicles;
         } catch (IOException e) {
             return  new ArrayList<>(0);
@@ -136,6 +141,8 @@ public class DatabaseManager {
                 }
 
             }
+            fr.close();
+            scan.close();
             return packages;
         } catch (IOException e) {
             return  new ArrayList<>(0);
@@ -159,6 +166,8 @@ public class DatabaseManager {
             FileReader fr = new FileReader(file);
             Scanner scan = new Scanner(fr);
             double profit = scan.nextDouble();
+            fr.close();
+            scan.close();
             return profit;
         } catch (IOException | NoSuchElementException e ) {
     	    return 0;
@@ -181,6 +190,8 @@ public class DatabaseManager {
             FileReader fr = new FileReader(file);
             Scanner scan = new Scanner(fr);
             int shipped = scan.nextInt();
+            fr.close();
+            scan.close();
             return shipped;
         } catch (IOException | NoSuchElementException e) {
     	    return 0;
@@ -202,11 +213,14 @@ public class DatabaseManager {
            FileReader fr = new FileReader(file);
            Scanner scan = new Scanner(fr);
            int prime = scan.nextInt();
+           fr.close();
+           scan.close();
            if (prime == 1) {
                return true;
            } else {
                return false;
            }
+
        } catch (IOException | NoSuchElementException e) {
            return false;
        }
@@ -234,6 +248,7 @@ public class DatabaseManager {
             FileWriter vehicleFile = new FileWriter(file);
             String vehicleType = "";
             String vehicleFormat = "";
+            String vehicleInfo = "";
 
             for (int i = 0; i < vehicles.size() ; i++) {
                 if (vehicles.get(i) instanceof Drone) {
@@ -250,8 +265,11 @@ public class DatabaseManager {
                         + "," + vehicles.get(i).getMaxWeight()
                         + "\n";
 
-                vehicleFile.write(vehicleFormat);
+                vehicleInfo += vehicleFormat;
             }
+
+            vehicleFile.write(vehicleFormat);
+            vehicleFile.close();
         } catch (IOException e) {
             System.out.println("File could not be saved");
         }
@@ -282,6 +300,7 @@ public class DatabaseManager {
         try {
             FileWriter packageFile = new FileWriter(file);
             String packageFormat = "";
+            String packageInfo = "";
             for (int i = 0; i < packages.size() ; i++) {
             packageFormat = packages.get(i).getID()
                     + "," + packages.get(i).getProduct()
@@ -293,9 +312,10 @@ public class DatabaseManager {
                     + "," + packages.get(i).getDestination().getState()
                     + "," + packages.get(i).getDestination().getZipCode()
                     + "\n";
-            packageFile.write(packageFormat);
-
+            packageInfo += packageFormat;
             }
+            packageFile.write(packageFormat);
+            packageFile.close();
         } catch (IOException e) {
             System.out.println("File could not be saved");
         }
@@ -317,6 +337,7 @@ public class DatabaseManager {
             FileWriter profitFile = new FileWriter(file);
             //save profit
             profitFile.write(Double.toString(profit));
+            profitFile.close();
         } catch (IOException e) {
     	    System.out.println("File could not be saved");
         }
@@ -336,6 +357,7 @@ public class DatabaseManager {
             FileWriter shippedFile = new FileWriter(file);
             //save shipped packages
             shippedFile.write(nPackages);
+            shippedFile.close();
         } catch (IOException e) {
     	    System.out.println("File could not be saved.");
         }
@@ -359,6 +381,7 @@ public class DatabaseManager {
             } else {
                 primeFile.write(0);
             }
+            primeFile.close();
 
         } catch (IOException e) {
             System.out.println("File could not be saved.");
