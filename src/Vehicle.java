@@ -24,6 +24,9 @@ public class Vehicle implements Profitable {
     //============================================================================
     Vehicle() {
         this("",0);
+        this.currentWeight = 0;
+        this.zipDest = 0;
+        this.packages = new ArrayList<>();
     }
     
     //============================================================================
