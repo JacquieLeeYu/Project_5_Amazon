@@ -225,7 +225,7 @@ public class Vehicle implements Profitable {
             int destination = warehousePackages.get(i).getDestination().getZipCode();
             int difference = Math.abs(destination - this.zipDest);
             if(difference == diffCounter) {
-                if (!(warehousePackages.get(i).getWeight() + this.currentWeight > this.maxWeight)) {
+                if (!((warehousePackages.get(i).getWeight() + this.currentWeight) > this.maxWeight)) {
                     addPackage(warehousePackages.get(i));
                     warehousePackages.remove(i);
                     break;

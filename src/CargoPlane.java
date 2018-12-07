@@ -93,9 +93,6 @@ public class CargoPlane extends Vehicle {
                 maxRange = distance;
             }
         }
-        if(maxRange%10 != 0) {
-            maxRange = maxRange - (maxRange%10) + 10;
-        }
         cost = maxRange * GAS_RATE;
         return (revenue - cost);
     }

@@ -381,6 +381,7 @@ public class DatabaseManager {
             } else {
                 primeFile.write(0);
             }
+
             primeFile.close();
 
         } catch (IOException e) {
