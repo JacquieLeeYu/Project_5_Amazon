@@ -7,20 +7,19 @@ import java.util.ArrayList;
  * <h1>CargoPlane</h1> Represents a Cargo Plane
  *
  * @author Jacquie Yu, Siddarth Pillai
- *
- * @version December 6th, 2018
+ * @version 2018-12-06
  */
 public class CargoPlane extends Vehicle {
-    final double GAS_RATE = 2.33;
+    final double gasRate = 2.33;
 
     /**
      * Default Constructor
      */
     //============================================================================
-    CargoPlane(){
+    CargoPlane() {
         super();
     }
-    
+
     //============================================================================
 
     /**
@@ -33,7 +32,7 @@ public class CargoPlane extends Vehicle {
     public CargoPlane(String licensePlate, double maxWeight) {
         super(licensePlate, maxWeight);
     }
-    
+
     //============================================================================
 
     /**
@@ -49,12 +48,12 @@ public class CargoPlane extends Vehicle {
         boolean checkOnce = false;
         boolean checkTwice = false;
         while (!isFull() && warehousePackages.size() != 0 && !checkTwice) {
-            for (int i = 0; i < warehousePackages.size() ; i++) {
+            for (int i = 0; i < warehousePackages.size(); i++) {
                 int destination = warehousePackages.get(i).getDestination().getZipCode();
                 int difference = Math.abs(destination - this.getZipDest());
-                if(difference < diffCounter + 10 && difference > diffCounter) {
+                if (difference < diffCounter + 10 && difference > diffCounter) {
                     if (!(warehousePackages.get(i).getWeight() +
-                            getCurrentWeight() > getMaxWeight())){
+                            getCurrentWeight() > getMaxWeight())) {
                         addPackage(warehousePackages.get(i));
                         warehousePackages.remove(i);
                         break;
@@ -99,7 +98,7 @@ public class CargoPlane extends Vehicle {
                 maxRange = distance;
             }
         }
-        cost = maxRange * GAS_RATE;
+        cost = maxRange * gasRate;
         return (revenue - cost);
     }
 
@@ -122,15 +121,14 @@ public class CargoPlane extends Vehicle {
         String weight = "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight();
         String profit = String.format("Net Profit: %.2f", getProfit());
         String labels = "";
-        for (int i = 0; i < getPackages().size() ; i++) {
+        for (int i = 0; i < getPackages().size(); i++) {
             labels += getPackages().get(i).shippingLabel();
         }
-        String report ="======== Cargo Plane Report =======\n"
-                + license + "\n" + destination + "\n" + weight + "\n" + profit +"\n" + labels;
+        String report = "======== Cargo Plane Report =======\n"
+                + license + "\n" + destination + "\n" + weight + "\n" + profit + "\n" + labels;
         return report;
-       
+
     }
 
-   
-   
+
 }

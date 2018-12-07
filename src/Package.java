@@ -4,8 +4,7 @@
  * <h1>Package</h1> Represents a package
  *
  * @author Jacquie Yu, Siddarth Pillai
- *
- * @version December 6th, 2018
+ * @version 2018-12-06
  */
 public class Package {
     private String id;
@@ -18,8 +17,6 @@ public class Package {
      * Default Constructor
      */
     //============================================================================
-    //TODO
-
     public Package() {
         this.id = "";
         this.product = "";
@@ -29,6 +26,7 @@ public class Package {
     }
 
     //============================================================================
+
     /**
      * Constructor
      *
@@ -37,11 +35,9 @@ public class Package {
      * @param weight      weight of package
      * @param price       price of product
      * @param destination the destination of the package
-     *
      */
     //============================================================================
     //
-
     public Package(String id, String product, double weight, double price, ShippingAddress destination) {
         this.id = id;
         this.product = product;
@@ -62,16 +58,13 @@ public class Package {
     }
 
 
-
     /**
      * @return Name of product in package
      */
     public String getProduct() {
 
-        return  product;
+        return product;
     }
-
-
 
 
     /**
@@ -82,16 +75,12 @@ public class Package {
     }
 
 
-
-
     /**
      * @return price of product in package
      */
     public double getPrice() {
         return price;
     }
-
-
 
 
     /**
@@ -102,16 +91,12 @@ public class Package {
     }
 
 
-
-
     /**
      * @return Package weight
      */
     public double getWeight() {
         return weight;
     }
-
-
 
 
     /**
@@ -122,15 +107,12 @@ public class Package {
     }
 
 
-
     /**
      * @return The shipping address of package
      */
     public ShippingAddress getDestination() {
-        return  destination;
+        return destination;
     }
-
-
 
 
     /**
@@ -139,7 +121,6 @@ public class Package {
     public void setDestination(ShippingAddress destination) {
         this.destination = destination;
     }
-
 
 
     /**

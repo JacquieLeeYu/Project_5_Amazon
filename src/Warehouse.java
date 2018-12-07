@@ -1,10 +1,5 @@
-import javax.xml.crypto.Data;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,31 +9,25 @@ import java.util.Scanner;
  * <h1>Warehouse</h1>
  *
  * @author Jacquie Yu, Siddarth Pillai
- *
- * @version December 6th, 2018
+ * @version 2018-12-06
  */
 
 public class Warehouse {
-	final static String folderPath = "files/";
-    final static File VEHICLE_FILE = new File(folderPath + "VehicleList.csv");
-    final static File PACKAGE_FILE = new File(folderPath + "PackageList.csv");
-    final static File PROFIT_FILE = new File(folderPath + "Profit.txt");
-    final static File N_PACKAGES_FILE = new File(folderPath + "NumberOfPackages.txt");
-    final static File PRIME_DAY_FILE = new File(folderPath + "PrimeDay.txt");
+    final static String FOLDER_PATH = "files/";
+    final static File VEHICLE_FILE = new File(FOLDER_PATH + "VehicleList.csv");
+    final static File PACKAGE_FILE = new File(FOLDER_PATH + "PackageList.csv");
+    final static File PROFIT_FILE = new File(FOLDER_PATH + "Profit.txt");
+    final static File N_PACKAGES_FILE = new File(FOLDER_PATH + "NumberOfPackages.txt");
+    final static File PRIME_DAY_FILE = new File(FOLDER_PATH + "PrimeDay.txt");
     final static double PRIME_DAY_DISCOUNT = .15;
-
 
 
     /**
      * Main Method
-     * 
+     *
      * @param args list of command line arguments
      */
     public static void main(String[] args) {
-
-
-
-        //TODO
 
         Scanner s = new Scanner(System.in);
 
@@ -270,7 +259,7 @@ public class Warehouse {
                                             }
                                             int max = modes[0];
                                             int maxIndex = 0;
-                                            for (int i = 0 ; i < modes.length ; i++) {
+                                            for (int i = 0; i < modes.length; i++) {
                                                 if (max < modes[i]) {
                                                     max = modes[i];
                                                     maxIndex = i;
@@ -289,34 +278,32 @@ public class Warehouse {
                                     } else {
                                         System.out.println("Error: No vehicles of selected type are available.");
                                     }
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Error: Option not available.");
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Error: Option not available.");
                         }
-                    }
                     } else if (input == 5) { //Print Stats
 
                         printStatisticsReport(profit, packagesShipped, packages.size());
 
                     } else {
                         System.out.println("Exiting...");
-                        DatabaseManager.saveVehicles(VEHICLE_FILE,vehicles);
+                        DatabaseManager.saveVehicles(VEHICLE_FILE, vehicles);
                         DatabaseManager.savePackages(PACKAGE_FILE, packages);
                         DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
-                        DatabaseManager.saveProfit(PROFIT_FILE,profit);
-                        DatabaseManager.savePrimeDay(PRIME_DAY_FILE,primeDay);
+                        DatabaseManager.saveProfit(PROFIT_FILE, profit);
+                        DatabaseManager.savePrimeDay(PRIME_DAY_FILE, primeDay);
                         repeatMenu = false;
                     }
                 }
-            } catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("Error: Option not available.");
                 repeatMenu = true;
             }
         }
         //3) save data (vehicle, packages, profits, packages shipped and primeday)
         // to files (overwriting them) using DatabaseManager
-
-
 
 
     }
@@ -337,10 +324,5 @@ public class Warehouse {
     }
 
 
-
-
-
-    	
-    
 }
 

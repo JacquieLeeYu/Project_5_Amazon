@@ -4,8 +4,7 @@
  * <h1>Shipping Address</h1> Represents a shipping address
  *
  * @author Jacquie Yu, Siddarth Pillai
- *
- * @version November 30, 2018
+ * @version 2018-12-06
  */
 public class ShippingAddress {
     private String name;
