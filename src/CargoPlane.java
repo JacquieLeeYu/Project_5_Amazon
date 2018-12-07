@@ -2,7 +2,13 @@ import java.util.ArrayList;
 
 
 /**
+ * CS18000 Project 5 - Amazon
+ *
  * <h1>CargoPlane</h1> Represents a Cargo Plane
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 public class CargoPlane extends Vehicle {
     final double GAS_RATE = 2.33;

@@ -1,5 +1,11 @@
 /**
+ * CS18000 Project 5 - Amazon
+ *
  * <h1>Package</h1> Represents a package
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 public class Package {
     private String id;

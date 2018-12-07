@@ -9,7 +9,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * CS18000 Project 5 - Amazon
+ *
  * <h1>Warehouse</h1>
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 
 public class Warehouse {

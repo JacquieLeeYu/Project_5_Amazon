@@ -3,6 +3,10 @@
  * 
  * This interface represents something that can be used to make a profit. Along
  * with returning total profits it must also be able to provide a report.
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 public interface Profitable {
 	

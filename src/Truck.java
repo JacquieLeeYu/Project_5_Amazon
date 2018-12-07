@@ -2,7 +2,13 @@ import java.util.ArrayList;
 
 
 /**
+ * CS18000 Project 5 - Amazon
+ *
  * <h1>Truck</h1> Represents a Truck
+ *
+ * @author Jacquie Yu, Siddarth Pillai
+ *
+ * @version December 6th, 2018
  */
 public class Truck extends Vehicle {
 
