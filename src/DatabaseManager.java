@@ -31,7 +31,6 @@ public class DatabaseManager {
         try {
             FileReader fr = new FileReader(file);
             Scanner scan = new Scanner(fr);
-            System.out.println("Load vehicles");
             String vehicleType = "";
             String vehiclePlate = "";
             double weight = 0.0;
@@ -40,7 +39,6 @@ public class DatabaseManager {
             try {
                 details = scan.nextLine();
             } catch (NoSuchElementException e) {
-                System.out.println("noSuchElement found");
                 details = null;
             }
             while(details != null) {
@@ -51,7 +49,6 @@ public class DatabaseManager {
 
                 if(vehicleType.equalsIgnoreCase("Drone")) {
                     vehicles.add(new Drone(vehiclePlate,weight));
-                    System.out.println("drone found");
                 }
                 if(vehicleType.equalsIgnoreCase("Truck")) {
                     vehicles.add(new Truck(vehiclePlate,weight));
@@ -268,7 +265,7 @@ public class DatabaseManager {
                 vehicleInfo += vehicleFormat;
             }
 
-            vehicleFile.write(vehicleFormat);
+            vehicleFile.write(vehicleInfo);
             vehicleFile.close();
         } catch (IOException e) {
             System.out.println("File could not be saved");
@@ -314,7 +311,7 @@ public class DatabaseManager {
                     + "\n";
             packageInfo += packageFormat;
             }
-            packageFile.write(packageFormat);
+            packageFile.write(packageInfo);
             packageFile.close();
         } catch (IOException e) {
             System.out.println("File could not be saved");
