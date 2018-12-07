@@ -116,7 +116,6 @@ public class Vehicle implements Profitable {
      */
     public void setZipDest(int zipDest) {
         this.zipDest = zipDest;
-        System.out.println("new zip =" + zipDest);
     }
 
 
