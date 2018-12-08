@@ -44,30 +44,35 @@ public class CargoPlane extends Vehicle {
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
         int diffCounter = 0;
-        int maxRange = 0;
-        boolean checkOnce = false;
+        int checkOnce = -1;
         boolean checkTwice = false;
+        boolean sameI = false;
         while (!isFull() && warehousePackages.size() != 0 && !checkTwice) {
             for (int i = 0; i < warehousePackages.size(); i++) {
+                sameI = false;
                 int destination = warehousePackages.get(i).getDestination().getZipCode();
                 int difference = Math.abs(destination - this.getZipDest());
-                if (difference < diffCounter + 10 && difference > diffCounter) {
+                if (difference <= diffCounter + 10 && difference >= diffCounter) {
                     if (!(warehousePackages.get(i).getWeight() +
                             getCurrentWeight() > getMaxWeight())) {
                         addPackage(warehousePackages.get(i));
                         setCurrentWeight(getCurrentWeight() + warehousePackages.get(i).getWeight());
                         warehousePackages.remove(i);
+                        sameI = true;
                         break;
                     } else {
-                        if (!checkOnce) {
-                            checkOnce = true;
+                        if (checkOnce == -1) {
+                            checkOnce = i;
                         } else {
                             checkTwice = true;
                         }
+                        sameI = true;
                     }
                 }
             }
-            diffCounter += 10;
+            if (!sameI) {
+                diffCounter += 10;
+            }
         }
 
 
@@ -89,20 +94,44 @@ public class CargoPlane extends Vehicle {
     @Override
     public double getProfit() {
         double revenue = 0;
-        int maxRange = 1;
+        int maxRange = 0;
         double cost = 0;
-        for (int i = 0; i < getPackages().size(); i++) {
-            revenue += getPackages().get(i).getPrice();
+        if (getPackages().size() == 0) {
+            return 0;
         }
         for (int i = 0; i < getPackages().size(); i++) {
+            revenue += getPackages().get(i).getPrice();
             int zip = getPackages().get(i).getDestination().getZipCode();
             int distance = Math.abs(zip - getZipDest());
-            if (distance >= maxRange) {
-                maxRange = distance;
+            if (distance > maxRange) {
+//                System.out.println(distance);
+//                System.out.println(distance % 10);
+                if ((distance % 10 != 0)) {
+                    maxRange = distance + (10 - (distance % 10));
+                } else {
+                    maxRange = distance;
+                }
+//                maxRange = distance;
+//                System.out.println("maxRange set to " + maxRange);
+
             }
         }
         cost = maxRange * gasRate;
-        return (revenue - cost);
+
+        double profits = revenue - cost;
+
+        String letsTryRounding;
+        double actualProfitsRounded;
+
+        if (profits < 0) {
+            letsTryRounding = String.format("%.2f", (profits * -1));
+            actualProfitsRounded = Double.parseDouble(letsTryRounding) * -1;
+        } else {
+            letsTryRounding = String.format("%.2f", (profits));
+            actualProfitsRounded = Double.parseDouble(letsTryRounding);
+        }
+
+        return (actualProfitsRounded);
     }
 
     /**
@@ -122,11 +151,12 @@ public class CargoPlane extends Vehicle {
         String license = "License Plate No.: " + getLicensePlate();
         String destination = "Destination: " + getZipDest();
         String weight = "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight();
-        String profit = String.format("Net Profit: %.2f", getProfit());
-        String labels = "";
+        String profit = String.format("Net Profit: ($%.2f)", getProfit());
+        String labels = "=====Shipping Labels=====\n";
         for (int i = 0; i < getPackages().size(); i++) {
             labels += getPackages().get(i).shippingLabel();
         }
+        labels = labels.concat("==============================");
         String report = "======== Cargo Plane Report =======\n"
                 + license + "\n" + destination + "\n" + weight + "\n" + profit + "\n" + labels;
         return report;

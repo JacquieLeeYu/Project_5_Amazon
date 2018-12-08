@@ -49,8 +49,12 @@ public class Drone extends Vehicle {
     @Override
     public double getProfit() {
         double revenue = 0;
-        int maxRange = 1;
+        int maxRange = 0;
         double cost = 0;
+        double profit;
+        if (getPackages().size() == 0) {
+            return 0;
+        }
         for (int i = 0; i < getPackages().size(); i++) {
             revenue += getPackages().get(i).getPrice();
         }
@@ -62,7 +66,21 @@ public class Drone extends Vehicle {
             }
         }
         cost = maxRange * gasRate;
-        return (revenue - cost);
+        profit = (revenue - cost);
+
+
+        String letsTryRounding;
+        double actualProfitsRounded;
+
+        if (profit < 0) {
+            letsTryRounding = String.format("%.2f", (profit * -1));
+            actualProfitsRounded = Double.parseDouble(letsTryRounding) * -1;
+        } else {
+            letsTryRounding = String.format("%.2f", (profit));
+            actualProfitsRounded = Double.parseDouble(letsTryRounding);
+        }
+
+        return (actualProfitsRounded);
     }
 
     /**
@@ -82,11 +100,12 @@ public class Drone extends Vehicle {
         String license = "License Plate No.: " + getLicensePlate();
         String destination = "Destination: " + getZipDest();
         String weight = "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight();
-        String profit = String.format("Net Profit: %.2f", getProfit());
-        String labels = "";
+        String profit = String.format("Net Profit: $%.2f", getProfit());
+        String labels = "=====Shipping Labels=====\n";
         for (int i = 0; i < getPackages().size(); i++) {
             labels += getPackages().get(i).shippingLabel();
         }
+        labels = labels.concat("==============================");
         String report = "======== Drone Report =======\n"
                 + license + "\n" + destination + "\n" + weight + "\n" + profit + "\n" + labels;
         return report;

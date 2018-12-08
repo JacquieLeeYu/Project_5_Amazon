@@ -1,6 +1,8 @@
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -241,13 +243,21 @@ public class Warehouse {
                                             int zip = packages.get(0).getDestination().getZipCode();
                                             ve.setZipDest(zip);
                                             sizeBefore = packages.size();
+//                                            System.out.println("Going to fill");
+//                                            for (Package p : packages) {
+//                                                System.out.println("price: " + p.getPrice());
+//                                                System.out.println("zip: " + p.getDestination().getZipCode());
+//                                            }
                                             ve.fill(packages);
                                             sizeAfter = packages.size();
-                                            System.out.println(ve.report());
+//                                            System.out.println("Calculating profits");
                                             profit += ve.getProfit();
+                                            System.out.println(ve.report());
                                             ve.empty();
+                                            vehicles.remove(ve);
                                             packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
+//                                            System.out.println("Finished");
                                         } else if (zipDest == 2) { //Mode zipcode
                                             int[] modes = new int[packages.size()];
                                             for (int i = 0; i < packages.size(); i++) {
@@ -267,11 +277,16 @@ public class Warehouse {
                                             }
                                             ve.setZipDest(maxIndex);
                                             sizeBefore = packages.size();
+//                                            for (Package p : packages) {
+//                                                System.out.println("price: " + p.getPrice());
+//                                                System.out.println("zip: " + p.getDestination().getZipCode());
+//                                            }
                                             ve.fill(packages);
                                             sizeAfter = packages.size();
                                             profit += ve.getProfit();
                                             System.out.println(ve.report());
                                             ve.empty();
+                                            vehicles.remove(ve);
                                             packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
                                         }
@@ -312,14 +327,13 @@ public class Warehouse {
 
     public static void printStatisticsReport(double profits, int packagesShipped, int numberOfPackages) {
 
-        DecimalFormat df = new DecimalFormat();
-        df.setDecimalSeparatorAlwaysShown(true);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
 
         String stats = String.format("==========Statistics==========\n" +
-                "Profits: $%.2f\n" +
+                "Profits: %s\n" +
                 "Packages Shipped: %d\n" +
                 "Packages in Warehouse: %d\n" +
-                "==============================", profits, packagesShipped, numberOfPackages);
+                "==============================", formatter.format(profits), packagesShipped, numberOfPackages);
 
         System.out.println(stats);
     }

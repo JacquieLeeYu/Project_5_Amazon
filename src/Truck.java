@@ -47,22 +47,38 @@ public class Truck extends Vehicle {
     @Override
     public double getProfit() {
         double revenue = 0;
-        int maxRange = 1;
+        int maxRange = 0;
         double cost = 0;
         double profit = 0;
+        if (getPackages().size() == 0) {
+            return 0;
+        }
         for (int i = 0; i < getPackages().size(); i++) {
             revenue += getPackages().get(i).getPrice();
         }
         for (int i = 0; i < getPackages().size(); i++) {
             int zip = getPackages().get(i).getDestination().getZipCode();
             int distance = Math.abs(zip - getZipDest());
-            if (distance >= maxRange) {
+            if (distance > maxRange) {
                 maxRange = distance;
             }
         }
         cost = maxRange * gasRate;
         profit = revenue - cost;
-        return profit;
+
+        String letsTryRounding;
+        double actualProfitsRounded;
+
+        if (profit < 0) {
+            letsTryRounding = String.format("%.2f", (profit * -1));
+            actualProfitsRounded = Double.parseDouble(letsTryRounding) * -1;
+        } else {
+            letsTryRounding = String.format("%.2f", (profit));
+            actualProfitsRounded = Double.parseDouble(letsTryRounding);
+        }
+//        System.out.println(maxRange);
+
+        return (actualProfitsRounded);
     }
 
     /**
@@ -82,11 +98,13 @@ public class Truck extends Vehicle {
         String license = "License Plate No.: " + getLicensePlate();
         String destination = "Destination: " + getZipDest();
         String weight = "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight();
-        String profit = String.format("Net Profit: %.2f", getProfit());
-        String labels = "";
+        String profit = String.format("Net Profit: $%.2f", getProfit());
+        String labels = "=====Shipping Labels=====\n";
         for (int i = 0; i < getPackages().size(); i++) {
             labels += getPackages().get(i).shippingLabel();
+            System.out.println("Inside report: " + getPackages().get(i).getWeight());
         }
+        labels = labels.concat("==============================");
         String report = "======== Truck Report =======\n"
                 + license + "\n" + destination + "\n" + weight + "\n" + profit + "\n" + labels;
         return report;

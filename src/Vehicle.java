@@ -141,7 +141,7 @@ public class Vehicle implements Profitable {
      * @return whether or not it was successful in adding the package
      */
     public boolean addPackage(Package pkg) {
-        if ((currentWeight + pkg.getWeight()) < maxWeight) {
+        if ((currentWeight + pkg.getWeight()) <= maxWeight) {
             packages.add(pkg);
             return true;
         } else return false;
@@ -189,30 +189,43 @@ public class Vehicle implements Profitable {
      */
     public void fill(ArrayList<Package> warehousePackages) {
         int diffCounter = 0;
-        int maxRange = 0;
-        boolean checkOnce = false;
-        boolean checkTwice = false;
-        setZipDest(warehousePackages.get(0).getDestination().getZipCode());
-        while (!isFull() && warehousePackages.size() != 0 && !checkTwice) {
-            for (int i = 0; i < warehousePackages.size(); i++) {
-                int destination = warehousePackages.get(i).getDestination().getZipCode();
-                int difference = Math.abs(destination - this.zipDest);
-                if (difference == diffCounter) {
-                    if (!((warehousePackages.get(i).getWeight() + this.currentWeight) > this.maxWeight)) {
+        int checkOnce = -1;
+        boolean recheck = false;
+        boolean sameI = false;
+//        setZipDest(warehousePackages.get(0).getDestination().getZipCode());
+//        System.out.println("While");
+        while (!isFull() && warehousePackages.size() > 0 && !recheck) {
+//            System.out.println("For");
+            for (int i = 0; i < warehousePackages.size(); i++) { //go through list
+                sameI = false;
+                int destination = warehousePackages.get(i).getDestination().getZipCode(); //get next location
+                int difference = Math.abs(destination - this.zipDest); //Distance b/w current location and next
+//                System.out.println("Vehicle location: " + zipDest);
+//                System.out.println("Searching packages in zipcode: " + destination);
+//                System.out.println("If comparison: abs vs. diffcounter " + difference + " : " + diffCounter);
+                if (difference == diffCounter) { //if at designated distance
+//                    System.out.println("Same place");
+                    if (!((warehousePackages.get(i).getWeight() + this.currentWeight) > this.maxWeight)) { //if not fat
                         addPackage(warehousePackages.get(i));
+//                        System.out.println(warehousePackages.get(i).getWeight());
                         currentWeight += warehousePackages.get(i).getWeight();
                         warehousePackages.remove(i);
+                        sameI = true;
                         break;
-                    } else {
-                        if (!checkOnce) {
-                            checkOnce = true;
+                    } else { //if exceeds, needs to check for when the same one comes back around
+                        if (checkOnce == -1) {
+                            checkOnce = i;
                         } else {
-                            checkTwice = true;
+                            recheck = true;
                         }
+                        sameI = true;
                     }
                 }
             }
-            diffCounter++;
+//            System.out.println("Absolute Value: " + diffCounter);
+            if (!sameI) {
+                diffCounter++;
+            }
         }
 
     }
