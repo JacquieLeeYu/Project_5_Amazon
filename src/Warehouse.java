@@ -262,7 +262,8 @@ public class Warehouse {
                                             int[] modes = new int[packages.size()];
                                             for (int i = 0; i < packages.size(); i++) {
                                                 for (int j = 0; j < packages.size(); j++) {
-                                                    if (packages.get(i).equals(packages.get(j))) {
+                                                    if (packages.get(i).getDestination().getZipCode() ==
+                                                            (packages.get(j).getDestination().getZipCode())) {
                                                         modes[i] += 1;
                                                     }
                                                 }
