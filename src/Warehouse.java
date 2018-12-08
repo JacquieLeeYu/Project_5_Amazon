@@ -275,7 +275,7 @@ public class Warehouse {
                                                     maxIndex = i;
                                                 }
                                             }
-                                            ve.setZipDest(maxIndex);
+                                            ve.setZipDest(packages.get(maxIndex).getDestination().getZipCode());
                                             sizeBefore = packages.size();
 //                                            for (Package p : packages) {
 //                                                System.out.println("price: " + p.getPrice());

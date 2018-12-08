@@ -67,6 +67,7 @@ public class Drone extends Vehicle {
         }
         cost = maxRange * gasRate;
         profit = (revenue - cost);
+        System.out.println("revenue: " + revenue + "\nCost: " + cost + "\nProfit: " + profit);
 
 
         String letsTryRounding;
@@ -80,7 +81,7 @@ public class Drone extends Vehicle {
             actualProfitsRounded = Double.parseDouble(letsTryRounding);
         }
 
-        return (actualProfitsRounded);
+        return (profit);
     }
 
     /**

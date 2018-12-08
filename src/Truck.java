@@ -65,6 +65,7 @@ public class Truck extends Vehicle {
         }
         cost = maxRange * gasRate;
         profit = revenue - cost;
+        System.out.println("revenue: " + revenue + "\nCost: " + cost + "\nProfit: " + profit);
 
         String letsTryRounding;
         double actualProfitsRounded;
@@ -78,7 +79,7 @@ public class Truck extends Vehicle {
         }
 //        System.out.println(maxRange);
 
-        return (actualProfitsRounded);
+        return (profit);
     }
 
     /**

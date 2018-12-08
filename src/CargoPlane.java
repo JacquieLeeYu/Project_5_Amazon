@@ -96,42 +96,37 @@ public class CargoPlane extends Vehicle {
         double revenue = 0;
         int maxRange = 0;
         double cost = 0;
+        double profit;
         if (getPackages().size() == 0) {
             return 0;
         }
         for (int i = 0; i < getPackages().size(); i++) {
             revenue += getPackages().get(i).getPrice();
+        }
+        for (int i = 0; i < getPackages().size(); i++) {
             int zip = getPackages().get(i).getDestination().getZipCode();
             int distance = Math.abs(zip - getZipDest());
-            if (distance > maxRange) {
-//                System.out.println(distance);
-//                System.out.println(distance % 10);
-                if ((distance % 10 != 0)) {
-                    maxRange = distance + (10 - (distance % 10));
-                } else {
-                    maxRange = distance;
-                }
-//                maxRange = distance;
-//                System.out.println("maxRange set to " + maxRange);
-
+            if (distance >= maxRange) {
+                maxRange = distance;
             }
         }
         cost = maxRange * gasRate;
+        profit = (revenue - cost);
+        System.out.println("revenue: " + revenue + "\nCost: " + cost + "\nProfit: " + profit);
 
-        double profits = revenue - cost;
 
         String letsTryRounding;
         double actualProfitsRounded;
 
-        if (profits < 0) {
-            letsTryRounding = String.format("%.2f", (profits * -1));
+        if (profit < 0) {
+            letsTryRounding = String.format("%.2f", (profit * -1));
             actualProfitsRounded = Double.parseDouble(letsTryRounding) * -1;
         } else {
-            letsTryRounding = String.format("%.2f", (profits));
+            letsTryRounding = String.format("%.2f", (profit));
             actualProfitsRounded = Double.parseDouble(letsTryRounding);
         }
 
-        return (actualProfitsRounded);
+        return (profit);
     }
 
     /**
