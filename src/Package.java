@@ -1,3 +1,7 @@
+import javax.swing.text.NumberFormatter;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * CS18000 Project 5 - Amazon
  *
@@ -127,16 +131,17 @@ public class Package {
      * @return The package's shipping label.
      */
     public String shippingLabel() {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
         String totalInfo = String.format("====================\n" +
                         "TO: %s\n" +
                         "%s\n" +
                         "%s, %s, %d\n" +
                         "Weight: %.2f\n" +
-                        "Price: $%.2f\n" +
+                        "Price: %s\n" +
                         "Product:%s\n" +
                         "====================", this.getDestination().getName(), this.getDestination().getAddress(),
                 this.getDestination().getCity(), this.getDestination().getState(), this.getDestination().getZipCode(),
-                weight, price, product);
+                weight, formatter.format(getPrice()), product);
         return totalInfo;
     }
 
