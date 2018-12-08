@@ -133,7 +133,7 @@ public class Package {
                         "%s, %s, %d\n" +
                         "Weight: %.2f\n" +
                         "Price: $%.2f\n" +
-                        "Product: %s\n" +
+                        "Product:%s\n" +
                         "====================", this.getDestination().getName(), this.getDestination().getAddress(),
                 this.getDestination().getCity(), this.getDestination().getState(), this.getDestination().getZipCode(),
                 weight, price, product);

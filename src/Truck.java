@@ -47,8 +47,9 @@ public class Truck extends Vehicle {
     @Override
     public double getProfit() {
         double revenue = 0;
-        int maxRange = 0;
+        int maxRange = 1;
         double cost = 0;
+        double profit = 0;
         for (int i = 0; i < getPackages().size(); i++) {
             revenue += getPackages().get(i).getPrice();
         }
@@ -60,7 +61,8 @@ public class Truck extends Vehicle {
             }
         }
         cost = maxRange * gasRate;
-        return (revenue - cost);
+        profit = revenue - cost;
+        return profit;
     }
 
     /**

@@ -244,8 +244,8 @@ public class Warehouse {
                                             ve.fill(packages);
                                             sizeAfter = packages.size();
                                             System.out.println(ve.report());
-                                            ve.empty();
                                             profit += ve.getProfit();
+                                            ve.empty();
                                             packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
                                         } else if (zipDest == 2) { //Mode zipcode
@@ -269,9 +269,9 @@ public class Warehouse {
                                             sizeBefore = packages.size();
                                             ve.fill(packages);
                                             sizeAfter = packages.size();
+                                            profit += ve.getProfit();
                                             System.out.println(ve.report());
                                             ve.empty();
-                                            profit += ve.getProfit();
                                             packagesShipped += sizeBefore - sizeAfter;
                                             sendRepeat = false;
                                         }
@@ -326,4 +326,3 @@ public class Warehouse {
 
 
 }
-
