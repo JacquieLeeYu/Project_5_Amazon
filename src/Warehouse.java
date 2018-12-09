@@ -234,7 +234,6 @@ public class Warehouse {
                                         System.out.println("ZIP Code Options:\n" +
                                                 "1) Send to first ZIP Code\n" +
                                                 "2) Send to mode of ZIP Codes");
-
                                         int zipDest = s.nextInt();
                                         s.nextLine();
                                         int sizeBefore;
@@ -243,23 +242,32 @@ public class Warehouse {
                                             int zip = packages.get(0).getDestination().getZipCode();
                                             ve.setZipDest(zip);
                                             sizeBefore = packages.size();
-//                                            System.out.println("Going to fill");
-//                                            for (Package p : packages) {
-//                                                System.out.println("price: " + p.getPrice());
-//                                                System.out.println("zip: " + p.getDestination().getZipCode());
-//                                            }
                                             ve.fill(packages);
+                                            System.out.println(ve.getZipDest());
                                             sizeAfter = packages.size();
-//                                            System.out.println("Calculating profits");
                                             profit += ve.getProfit();
                                             System.out.println(ve.report());
                                             ve.empty();
                                             vehicles.remove(ve);
-                                            packagesShipped += sizeBefore - sizeAfter;
+                                            packagesShipped += (sizeBefore - sizeAfter);
                                             sendRepeat = false;
-//                                            System.out.println("Finished");
                                         } else if (zipDest == 2) { //Mode zipcode
-                                            int[] modes = new int[packages.size()];
+                                            int maxZip = 0;
+                                            int occurance = 0;
+                                            for (int i = 0; i < packages.size() ; i++) {
+                                                int count = 0;
+                                                for (int j = 0; j < packages.size(); j++) {
+                                                    if (packages.get(i).getDestination().getZipCode() ==
+                                                            packages.get(i).getDestination().getZipCode()) {
+                                                        ++count;
+                                                    }
+                                                }
+                                                if (count > occurance) {
+                                                    occurance = count;
+                                                    maxZip = packages.get(i).getDestination().getZipCode();
+                                                }
+                                            }
+                                            /*int[] modes = new int[packages.size()];
                                             for (int i = 0; i < packages.size(); i++) {
                                                 for (int j = 0; j < packages.size(); j++) {
                                                     if (packages.get(i).getDestination().getZipCode() ==
@@ -275,8 +283,9 @@ public class Warehouse {
                                                     max = modes[i];
                                                     maxIndex = i;
                                                 }
-                                            }
-                                            ve.setZipDest(packages.get(maxIndex).getDestination().getZipCode());
+                                            } */
+                                            ve.setZipDest(maxZip);
+                                            System.out.println(ve.getZipDest());
                                             sizeBefore = packages.size();
 //                                            for (Package p : packages) {
 //                                                System.out.println("price: " + p.getPrice());

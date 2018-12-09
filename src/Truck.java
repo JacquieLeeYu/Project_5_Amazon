@@ -67,18 +67,6 @@ public class Truck extends Vehicle {
         profit = revenue - cost;
         System.out.println("revenue: " + revenue + "\nCost: " + cost + "\nProfit: " + profit);
 
-        String letsTryRounding;
-        double actualProfitsRounded;
-
-        if (profit < 0) {
-            letsTryRounding = String.format("%.2f", (profit * -1));
-            actualProfitsRounded = Double.parseDouble(letsTryRounding) * -1;
-        } else {
-            letsTryRounding = String.format("%.2f", (profit));
-            actualProfitsRounded = Double.parseDouble(letsTryRounding);
-        }
-//        System.out.println(maxRange);
-
         return (profit);
     }
 
