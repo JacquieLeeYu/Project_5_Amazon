@@ -64,9 +64,7 @@ public class Truck extends Vehicle {
             }
         }
         cost = maxRange * gasRate;
-        profit = revenue - cost;
-        System.out.println("revenue: " + revenue + "\nCost: " + cost + "\nProfit: " + profit);
-
+        profit = (revenue - cost);
         return (profit);
     }
 

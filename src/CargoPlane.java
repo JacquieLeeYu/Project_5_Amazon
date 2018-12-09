@@ -47,7 +47,8 @@ public class CargoPlane extends Vehicle {
         int checkOnce = -1;
         boolean checkTwice = false;
         boolean sameI = false;
-        while (!isFull() && warehousePackages.size() != 0 && !checkTwice) {
+        int overWeight = 0;
+        while (!isFull() && (warehousePackages.size() - overWeight) > 0) {
             for (int i = 0; i < warehousePackages.size(); i++) {
                 sameI = false;
                 int destination = warehousePackages.get(i).getDestination().getZipCode();
@@ -61,12 +62,7 @@ public class CargoPlane extends Vehicle {
                         sameI = true;
                         break;
                     } else {
-                        if (checkOnce == -1) {
-                            checkOnce = i;
-                        } else {
-                            checkTwice = true;
-                        }
-                        sameI = true;
+                        overWeight += 1;
                     }
                 }
             }
@@ -112,19 +108,6 @@ public class CargoPlane extends Vehicle {
         }
         cost = maxRange * gasRate;
         profit = (revenue - cost);
-        System.out.println("revenue: " + revenue + "\nCost: " + cost + "\nProfit: " + profit);
-
-
-        String letsTryRounding;
-        double actualProfitsRounded;
-
-        if (profit < 0) {
-            letsTryRounding = String.format("%.2f", (profit * -1));
-            actualProfitsRounded = Double.parseDouble(letsTryRounding) * -1;
-        } else {
-            letsTryRounding = String.format("%.2f", (profit));
-            actualProfitsRounded = Double.parseDouble(letsTryRounding);
-        }
 
         return (profit);
     }

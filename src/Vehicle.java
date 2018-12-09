@@ -192,33 +192,24 @@ public class Vehicle implements Profitable {
         int checkOnce = -1;
         boolean recheck = false;
         boolean sameI = false;
+        int overWeight = 0;
 //        setZipDest(warehousePackages.get(0).getDestination().getZipCode());
 //        System.out.println("While");
-        while (!isFull() && warehousePackages.size() > 0 && !recheck) {
+        while (!isFull() && (warehousePackages.size() - overWeight) > 0 ) {
 //            System.out.println("For");
             for (int i = 0; i < warehousePackages.size(); i++) { //go through list
                 sameI = false;
                 int destination = warehousePackages.get(i).getDestination().getZipCode(); //get next location
                 int difference = Math.abs(destination - this.zipDest); //Distance b/w current location and next
-//                System.out.println("Vehicle location: " + zipDest);
-//                System.out.println("Searching packages in zipcode: " + destination);
-//                System.out.println("If comparison: abs vs. diffcounter " + difference + " : " + diffCounter);
-                if (difference == diffCounter) { //if at designated distance
-//                    System.out.println("Same place");
-                    if (!((warehousePackages.get(i).getWeight() + this.currentWeight) > this.maxWeight)) { //if not fat
+                if (difference == diffCounter) {
+                    if (((warehousePackages.get(i).getWeight() + this.currentWeight) < this.maxWeight)) { //if not fat
                         addPackage(warehousePackages.get(i));
-//                        System.out.println(warehousePackages.get(i).getWeight());
                         currentWeight += warehousePackages.get(i).getWeight();
                         warehousePackages.remove(i);
                         sameI = true;
                         break;
                     } else { //if exceeds, needs to check for when the same one comes back around
-                        if (checkOnce == -1) {
-                            checkOnce = i;
-                        } else {
-                            recheck = true;
-                        }
-                        sameI = true;
+                        overWeight += 1;
                     }
                 }
             }

@@ -51,7 +51,7 @@ public class Drone extends Vehicle {
         double revenue = 0;
         int maxRange = 0;
         double cost = 0;
-        double profit;
+        double profit = 0;
         if (getPackages().size() == 0) {
             return 0;
         }
@@ -61,26 +61,12 @@ public class Drone extends Vehicle {
         for (int i = 0; i < getPackages().size(); i++) {
             int zip = getPackages().get(i).getDestination().getZipCode();
             int distance = Math.abs(zip - getZipDest());
-            if (distance >= maxRange) {
+            if (distance > maxRange) {
                 maxRange = distance;
             }
         }
         cost = maxRange * gasRate;
         profit = (revenue - cost);
-        System.out.println("revenue: " + revenue + "\nCost: " + cost + "\nProfit: " + profit);
-
-
-        String letsTryRounding;
-        double actualProfitsRounded;
-
-        if (profit < 0) {
-            letsTryRounding = String.format("%.2f", (profit * -1));
-            actualProfitsRounded = Double.parseDouble(letsTryRounding) * -1;
-        } else {
-            letsTryRounding = String.format("%.2f", (profit));
-            actualProfitsRounded = Double.parseDouble(letsTryRounding);
-        }
-
         return (profit);
     }
 
